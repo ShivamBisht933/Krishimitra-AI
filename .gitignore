@@ -1,0 +1,30 @@
+# Python environment
+venv/
+.venv/
+__pycache__/
+*.py[cod]
+
+# Environment variables and secrets
+.env
+.env.*
+!.env.example
+
+# Uploaded user files
+backend/uploads/*
+!backend/uploads/.gitkeep
+
+# Logs and temporary files
+*.log
+*.tmp
+.DS_Store
+
+# Local development
+.pytest_cache/
+.mypy_cache/
+.vscode/
+
+# Original disease training images (not required to run the app)
+datasets/blackgram_disease/
+
+# Local backup archive
+backend.zip

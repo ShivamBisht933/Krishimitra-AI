@@ -1,0 +1,893 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Crop Planner | KrishiMitra AI</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #f5f8f5;
+            font-family: Arial, sans-serif;
+            margin: 0;
+        }
+
+        .planner-container {
+            max-width: 1050px;
+            margin: 35px auto;
+            padding: 25px;
+        }
+
+        .planner-header {
+            margin-bottom: 25px;
+        }
+
+        .planner-header h1 {
+            color: #176b3a;
+            margin-bottom: 10px;
+        }
+
+        .planner-header p {
+            color: #647568;
+            line-height: 1.6;
+        }
+
+        .planner-card {
+            background: white;
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 4px 18px rgba(0,0,0,0.06);
+            margin-top: 25px;
+        }
+
+        .planner-card h2 {
+            color: #176b3a;
+        }
+
+        .planner-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 20px;
+        }
+
+        .planner-field label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #344b3a;
+        }
+
+        .planner-field input,
+        .planner-field select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #d4e2d7;
+            border-radius: 8px;
+            font-size: 15px;
+            background: white;
+        }
+
+        .planner-field input:focus,
+        .planner-field select:focus {
+            outline: none;
+            border-color: #269653;
+            box-shadow: 0 0 0 3px rgba(38,150,83,0.12);
+        }
+
+        .planner-button {
+            margin-top: 25px;
+            padding: 14px 26px;
+            background: #187a43;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .planner-button:hover {
+            background: #105d31;
+        }
+
+        .planner-note {
+            background: #f2f9f3;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+            color: #365b40;
+        }
+
+        .planner-note h3 {
+            color: #176b3a;
+            margin-top: 0;
+        }
+
+        .result-card {
+            background: white;
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 4px 18px rgba(0,0,0,0.06);
+            margin-top: 30px;
+        }
+
+        .result-card > h2 {
+            color: #176b3a;
+        }
+
+        .result-metric {
+            background: #f2f9f3;
+            padding: 20px;
+            border-radius: 10px;
+            border: 1px solid #e2eee4;
+        }
+
+        .result-metric strong {
+            color: #526957;
+            font-size: 14px;
+        }
+
+        .result-metric h2 {
+            margin-bottom: 0;
+            color: #176b3a;
+            font-size: 23px;
+        }
+
+        .profit-value {
+            color: #187a43 !important;
+        }
+
+        .loss-value {
+            color: #c0392b !important;
+        }
+
+        .expense-item {
+            padding: 12px;
+            background: white;
+            border-radius: 8px;
+            border: 1px solid #e2eee4;
+        }
+
+        .expense-item strong {
+            display: block;
+            color: #526957;
+            margin-bottom: 7px;
+        }
+
+        .expense-item p {
+            font-size: 18px;
+            font-weight: 600;
+            color: #176b3a;
+            margin: 0;
+        }
+
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 850px;
+            margin: 20px auto 0;
+        }
+
+        .error-message {
+            background: #fff0f0;
+            border-left: 4px solid #c0392b;
+            padding: 18px;
+            border-radius: 8px;
+            color: #922b21;
+        }
+
+        .planner-back {
+            display: inline-block;
+            margin-top: 25px;
+            color: #176b3a;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .planner-back:hover {
+            text-decoration: underline;
+        }
+
+        @media(max-width: 650px) {
+            .planner-container {
+                padding: 15px;
+            }
+
+            .planner-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .planner-card,
+            .result-card {
+                padding: 20px;
+            }
+        }
+    </style>
+
+</head>
+
+<body>
+
+<div class="planner-container">
+
+    <!-- PAGE HEADER -->
+
+    <header class="planner-header">
+
+        <h1>🌾 KrishiMitra AI – Crop Planner</h1>
+
+        <p>
+            Create a detailed farming plan using your land area,
+            crop selection, expected yield, market price and
+            cultivation expenses.
+        </p>
+
+    </header>
+
+
+    <!-- FARM INPUT FORM -->
+
+    <section class="planner-card">
+
+        <h2>Farm Planning Details</h2>
+
+        <form method="POST"
+              action="{{ url_for('crop_planner') }}">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+            <div class="planner-grid">
+
+                <div class="planner-field">
+
+                    <label for="crop">Select Crop</label>
+
+                    <select name="crop" id="crop" required>
+
+                        <option value="">Choose crop</option>
+
+                        <option value="Bajra">Pearl Millet (Bajra)</option>
+
+                        <option value="Jowar">Sorghum (Jowar)</option>
+
+                        <option value="Gram">Chickpea (Gram)</option>
+
+                        <option value="Moong(Green Gram)">
+                            Green Gram (Moong)
+                        </option>
+
+                        <option value="Moth">Moth Bean</option>
+
+                        <option value="Arhar/Tur">Pigeon Pea (Arhar)</option>
+
+                        <option value="Urad">Black Gram (Urad)</option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="planner-field">
+
+                    <label for="area">Land Area (Acres)</label>
+
+                    <input type="number"
+                           id="area"
+                           name="area"
+                           min="0.1"
+                           max="10000"
+                           step="0.1"
+                           placeholder="Example: 2.5"
+                           required>
+
+                </div>
+
+
+                <div class="planner-field">
+
+                    <label for="season">Growing Season</label>
+
+                    <select name="season" id="season" required>
+
+                        <option value="">Select season</option>
+
+                        <option value="Kharif">Kharif</option>
+
+                        <option value="Rabi">Rabi</option>
+
+                        <option value="Summer">Summer</option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="planner-field">
+
+                    <label for="irrigation">Water Availability</label>
+
+                    <select name="irrigation" id="irrigation" required>
+
+                        <option value="">Select availability</option>
+
+                        <option value="Rainfed">Rainfed</option>
+
+                        <option value="Limited">Limited Irrigation</option>
+
+                        <option value="Adequate">Adequate Irrigation</option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="planner-field">
+
+                    <label for="yield">
+                        Expected Yield (Quintals/Acre)
+                    </label>
+
+                    <input type="number"
+                           id="yield"
+                           name="expected_yield"
+                           min="0.1"
+                           max="1000"
+                           step="0.1"
+                           placeholder="Example: 8"
+                           required>
+
+                </div>
+
+
+                <div class="planner-field">
+
+                    <label for="price">
+                        Expected Selling Price (₹/Quintal)
+                    </label>
+
+                    <input type="number"
+                           id="price"
+                           name="selling_price"
+                           min="1"
+                           max="1000000"
+                           step="1"
+                           placeholder="Example: 2500"
+                           required>
+
+                </div>
+
+
+                <!-- EXPENSE CATEGORY 1 -->
+
+                <div class="planner-field">
+
+                    <label for="seed_cost">
+                        Seeds & Sowing (₹/Acre)
+                    </label>
+
+                    <input type="number"
+                           id="seed_cost"
+                           name="seed_cost"
+                           min="0"
+                           max="10000000"
+                           step="1"
+                           placeholder="Example: 1500"
+                           required>
+
+                </div>
+
+
+                <!-- EXPENSE CATEGORY 2 -->
+
+                <div class="planner-field">
+
+                    <label for="fertilizer_cost">
+                        Fertilizers & Manure (₹/Acre)
+                    </label>
+
+                    <input type="number"
+                           id="fertilizer_cost"
+                           name="fertilizer_cost"
+                           min="0"
+                           max="10000000"
+                           step="1"
+                           placeholder="Example: 2500"
+                           required>
+
+                </div>
+
+
+                <!-- EXPENSE CATEGORY 3 -->
+
+                <div class="planner-field">
+
+                    <label for="labour_cost">
+                        Labour Expenses (₹/Acre)
+                    </label>
+
+                    <input type="number"
+                           id="labour_cost"
+                           name="labour_cost"
+                           min="0"
+                           max="10000000"
+                           step="1"
+                           placeholder="Example: 3000"
+                           required>
+
+                </div>
+
+
+                <!-- EXPENSE CATEGORY 4 -->
+
+                <div class="planner-field">
+
+                    <label for="irrigation_cost">
+                        Irrigation & Electricity (₹/Acre)
+                    </label>
+
+                    <input type="number"
+                           id="irrigation_cost"
+                           name="irrigation_cost"
+                           min="0"
+                           max="10000000"
+                           step="1"
+                           placeholder="Example: 1000"
+                           required>
+
+                </div>
+
+
+                <!-- EXPENSE CATEGORY 5 -->
+
+                <div class="planner-field">
+
+                    <label for="pesticide_cost">
+                        Pesticides & Crop Protection (₹/Acre)
+                    </label>
+
+                    <input type="number"
+                           id="pesticide_cost"
+                           name="pesticide_cost"
+                           min="0"
+                           max="10000000"
+                           step="1"
+                           placeholder="Example: 1000"
+                           required>
+
+                </div>
+
+
+                <!-- EXPENSE CATEGORY 6 -->
+
+                <div class="planner-field">
+
+                    <label for="other_cost">
+                        Machinery, Transport & Other (₹/Acre)
+                    </label>
+
+                    <input type="number"
+                           id="other_cost"
+                           name="other_cost"
+                           min="0"
+                           max="10000000"
+                           step="1"
+                           placeholder="Example: 3000"
+                           required>
+
+                </div>
+
+            </div>
+
+
+            <button type="submit" class="planner-button">
+                Generate My Crop Plan
+            </button>
+
+        </form>
+
+
+        <div class="planner-note">
+
+            <strong>Important:</strong>
+
+            Yield, selling price and cultivation expenses are
+            farmer-provided estimates. The financial results
+            are projections and not guaranteed returns.
+
+        </div>
+
+    </section>
+
+
+    <!-- RESULTS SECTION -->
+
+    {% if result %}
+
+    <section class="result-card">
+
+        {% if result.success %}
+
+            <h2>🌾 Your Crop Plan Results</h2>
+
+            <h3>{{ result.crop }} — {{ result.season }}</h3>
+
+
+            <!-- FINANCIAL SUMMARY CARDS -->
+
+            <div class="planner-grid">
+
+                <div class="result-metric">
+
+                    <strong>Total Production</strong>
+
+                    <h2>
+                        {{ result.total_production }} Quintals
+                    </h2>
+
+                </div>
+
+
+                <div class="result-metric">
+
+                    <strong>Estimated Revenue</strong>
+
+                    <h2>
+                        ₹{{ "{:,.2f}".format(result.total_revenue) }}
+                    </h2>
+
+                </div>
+
+
+                <div class="result-metric">
+
+                    <strong>Total Cultivation Cost</strong>
+
+                    <h2>
+                        ₹{{ "{:,.2f}".format(result.total_cost) }}
+                    </h2>
+
+                </div>
+
+
+                <div class="result-metric">
+
+                    <strong>Net Estimated Profit / Loss</strong>
+
+                    <h2 class="{{ 'profit-value' if result.net_profit >= 0 else 'loss-value' }}">
+
+                        ₹{{ "{:,.2f}".format(result.net_profit) }}
+
+                    </h2>
+
+                </div>
+
+
+                <div class="result-metric">
+
+                    <strong>Profit / Acre</strong>
+
+                    <h2 class="{{ 'profit-value' if result.profit_per_acre >= 0 else 'loss-value' }}">
+
+                        ₹{{ "{:,.2f}".format(result.profit_per_acre) }}
+
+                    </h2>
+
+                </div>
+
+
+                <div class="result-metric">
+
+                    <strong>Break-even Selling Price</strong>
+
+                    <h2>
+                        ₹{{ "{:,.2f}".format(result.break_even_price) }}/Quintal
+                    </h2>
+
+                </div>
+
+            </div>
+
+
+            <!-- DETAILED EXPENSE BREAKDOWN -->
+
+            <div class="planner-note">
+
+                <h3>📊 Detailed Farming Expense Breakdown</h3>
+
+                <div class="planner-grid">
+
+                    <div class="expense-item">
+
+                        <strong>Seeds & Sowing</strong>
+
+                        <p>
+                            ₹{{ "{:,.2f}".format(result.seed_cost * result.area) }}
+                        </p>
+
+                    </div>
+
+
+                    <div class="expense-item">
+
+                        <strong>Fertilizers & Manure</strong>
+
+                        <p>
+                            ₹{{ "{:,.2f}".format(result.fertilizer_cost * result.area) }}
+                        </p>
+
+                    </div>
+
+
+                    <div class="expense-item">
+
+                        <strong>Labour Expenses</strong>
+
+                        <p>
+                            ₹{{ "{:,.2f}".format(result.labour_cost * result.area) }}
+                        </p>
+
+                    </div>
+
+
+                    <div class="expense-item">
+
+                        <strong>Irrigation & Electricity</strong>
+
+                        <p>
+                            ₹{{ "{:,.2f}".format(result.irrigation_cost * result.area) }}
+                        </p>
+
+                    </div>
+
+
+                    <div class="expense-item">
+
+                        <strong>Pesticides & Crop Protection</strong>
+
+                        <p>
+                            ₹{{ "{:,.2f}".format(result.pesticide_cost * result.area) }}
+                        </p>
+
+                    </div>
+
+
+                    <div class="expense-item">
+
+                        <strong>Machinery, Transport & Other</strong>
+
+                        <p>
+                            ₹{{ "{:,.2f}".format(result.other_cost * result.area) }}
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <hr>
+
+                <h3>
+                    Total Cultivation Expense:
+                    ₹{{ "{:,.2f}".format(result.total_cost) }}
+                </h3>
+
+                <p>
+                    Cost per acre:
+                    ₹{{ "{:,.2f}".format(result.total_cost_per_acre) }}
+                </p>
+
+            </div>
+
+
+            <!-- FINANCIAL CHART -->
+
+            <div class="planner-note">
+
+                <h3>📈 Farm Financial Analysis</h3>
+
+                <p>
+                    Comparison of your estimated revenue,
+                    cultivation expenses and net profit or loss.
+                </p>
+
+                <div class="chart-container">
+
+                    <canvas id="financialChart"></canvas>
+
+                </div>
+
+            </div>
+
+
+            <!-- PLANNING SUMMARY -->
+
+            <div class="planner-note">
+
+                <h3>📋 Planning Summary</h3>
+
+                <p>
+                    Land area: {{ result.area }} acres
+                </p>
+
+                <p>
+                    Water availability: {{ result.irrigation }}
+                </p>
+
+                <p>
+                    Expected yield:
+                    {{ result.expected_yield }} quintals/acre
+                </p>
+
+                <p>
+                    Expected selling price:
+                    ₹{{ "{:,.2f}".format(result.selling_price) }}/quintal
+                </p>
+
+            </div>
+
+
+            <!-- DISCLAIMER -->
+
+            <div class="planner-note">
+
+                <strong>Important Disclaimer</strong>
+
+                <p>
+                    These financial estimates are based on
+                    the values entered by the farmer.
+
+                    Actual yield, selling price, labour costs,
+                    input expenses and market conditions may differ.
+
+                    The calculation does not include expenses
+                    that were not entered in the form.
+                </p>
+
+            </div>
+
+
+        {% else %}
+
+            <div class="error-message">
+
+                <h2>Unable to Generate Crop Plan</h2>
+
+                <p>{{ result.message }}</p>
+
+            </div>
+
+        {% endif %}
+
+    </section>
+
+    {% endif %}
+
+
+    <!-- BACK TO DASHBOARD -->
+
+    <a href="{{ url_for('home') }}" class="planner-back">
+        ← Back to Dashboard
+    </a>
+
+</div>
+
+
+<!-- CHART.JS -->
+
+{% if result and result.success %}
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+
+    const chartElement = document.getElementById("financialChart");
+
+    if (chartElement && typeof Chart !== "undefined") {
+
+        new Chart(chartElement, {
+
+            type: "bar",
+
+            data: {
+
+                labels: [
+                    "Revenue",
+                    "Cultivation Expenses",
+                    "Net Profit / Loss"
+                ],
+
+                datasets: [{
+
+                    label: "Amount (₹)",
+
+                    data: [
+                        {{ result.total_revenue }},
+                        {{ result.total_cost }},
+                        {{ result.net_profit }}
+                    ],
+
+                    backgroundColor: [
+                        "#269653",
+                        "#e5a000",
+                        "{{ '#3478c5' if result.net_profit >= 0 else '#c0392b' }}"
+                    ],
+
+                    borderRadius: 8,
+
+                    maxBarThickness: 75
+
+                }]
+
+            },
+
+            options: {
+
+                responsive: true,
+
+                maintainAspectRatio: true,
+
+                plugins: {
+
+                    legend: {
+                        display: false
+                    },
+
+                    tooltip: {
+
+                        callbacks: {
+
+                            label: function(context) {
+
+                                return "₹" +
+                                    context.raw.toLocaleString("en-IN");
+
+                            }
+
+                        }
+
+                    }
+
+                },
+
+                scales: {
+
+                    y: {
+
+                        beginAtZero: true,
+
+                        ticks: {
+
+                            callback: function(value) {
+
+                                return "₹" +
+                                    value.toLocaleString("en-IN");
+
+                            }
+
+                        }
+
+                    }
+
+                }
+
+            }
+
+        });
+
+    }
+
+</script>
+
+{% endif %}
+
+</body>
+</html>

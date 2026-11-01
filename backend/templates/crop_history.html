@@ -1,0 +1,188 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crop Plan History | KrishiMitra AI</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+    <style>
+        .history-container {
+            padding: 30px;
+            max-width: 1250px;
+            margin: auto;
+        }
+
+        .history-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .history-header h1 {
+            color: #176b3a;
+            margin-bottom: 8px;
+        }
+
+        .back-button {
+            background: #eaf6ee;
+            color: #176b3a;
+            padding: 11px 18px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .history-table-wrapper {
+            background: white;
+            padding: 20px;
+            border-radius: 14px;
+            border: 1px solid #e5eee8;
+            overflow-x: auto;
+        }
+
+        .history-table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 950px;
+        }
+
+        .history-table th {
+            background: #eaf6ee;
+            color: #176b3a;
+            padding: 15px;
+            text-align: left;
+        }
+
+        .history-table td {
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+            color: #444;
+        }
+
+        .history-table tr:hover {
+            background: #f7fbf8;
+        }
+
+        .profit {
+            color: #16834a !important;
+            font-weight: 700;
+        }
+
+        .loss {
+            color: #d93636 !important;
+            font-weight: 700;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 55px 20px;
+            color: #777;
+        }
+
+        .empty-state h2 {
+            color: #176b3a;
+            margin-bottom: 10px;
+        }
+
+        .plan-count {
+            color: #777;
+            margin-bottom: 15px;
+        }
+
+        @media(max-width: 600px) {
+            .history-container {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="history-container">
+
+    <div class="history-header">
+        <div>
+            <h1>🌱 Crop Plan History</h1>
+            <p>Your previously saved farming plans</p>
+        </div>
+
+        <a href="{{ url_for('home') }}" class="back-button">
+            ← Back to Dashboard
+        </a>
+    </div>
+
+    <p class="plan-count">
+        Total saved plans: <strong>{{ plans|length }}</strong>
+    </p>
+
+    {% if plans %}
+
+    <div class="history-table-wrapper">
+
+        <table class="history-table">
+            <thead>
+                <tr>
+                    <th>Plan ID</th>
+                    <th>Crop</th>
+                    <th>Season</th>
+                    <th>Area (Acres)</th>
+                    <th>Production (Quintals)</th>
+                    <th>Revenue</th>
+                    <th>Expenses</th>
+                    <th>Net Profit</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for plan in plans %}
+                <tr>
+                    <td>#{{ plan.plan_id }}</td>
+                    <td><strong>{{ plan.crop }}</strong></td>
+                    <td>{{ plan.season }}</td>
+                    <td>{{ "%.2f"|format(plan.area or 0) }}</td>
+                    <td>{{ "%.2f"|format(plan.total_production or 0) }}</td>
+                    <td>₹{{ "%.2f"|format(plan.total_revenue or 0) }}</td>
+                    <td>₹{{ "%.2f"|format(plan.total_cost or 0) }}</td>
+
+                    <td class="{{ 'profit' if (plan.net_profit or 0) >= 0 else 'loss' }}">
+                        ₹{{ "%.2f"|format(plan.net_profit or 0) }}
+                    </td>
+
+                    <td>
+                        {{ plan.created_at.strftime('%d-%m-%Y') if plan.created_at else 'N/A' }}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+    </div>
+
+    {% else %}
+
+    <div class="history-table-wrapper empty-state">
+        <h2>🌾 No Crop Plans Yet</h2>
+        <p>You haven't saved any crop plans.</p>
+
+        <br>
+
+        <a href="{{ url_for('crop_planner') }}" class="back-button">
+            Create Your First Crop Plan
+        </a>
+    </div>
+
+    {% endif %}
+
+</div>
+
+</body>
+</html>

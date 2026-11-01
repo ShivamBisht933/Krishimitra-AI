@@ -1,0 +1,609 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Crop Doctor | KrishiMitra AI</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+    <style>
+        .doctor-container {
+            max-width: 950px;
+            margin: 40px auto;
+            padding: 25px;
+        }
+
+        .doctor-header {
+            margin-bottom: 30px;
+        }
+
+        .doctor-header h1 {
+            color: #176b3a;
+            margin-bottom: 10px;
+        }
+
+        .upload-card,
+        .result-card {
+            background: white;
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 4px 18px rgba(0,0,0,0.07);
+            margin-bottom: 25px;
+        }
+
+        .upload-area {
+            border: 2px dashed #8ab99a;
+            border-radius: 12px;
+            padding: 35px 20px;
+            text-align: center;
+            background: #f7fcf8;
+            margin: 20px 0;
+        }
+
+        .upload-area input {
+            display: block;
+            margin: 20px auto;
+            max-width: 100%;
+        }
+
+        .doctor-button {
+            background: #187a43;
+            color: white;
+            border: none;
+            padding: 13px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .doctor-button:hover {
+            background: #105d31;
+        }
+
+        .result-card h2 {
+            color: #176b3a;
+        }
+
+        .confidence-bar {
+            height: 12px;
+            background: #e5eee7;
+            border-radius: 20px;
+            overflow: hidden;
+            margin: 12px 0;
+        }
+
+        .confidence-fill {
+            height: 100%;
+            background: #269653;
+            border-radius: 20px;
+        }
+
+        .prediction-item {
+            padding: 12px;
+            background: #f4f9f5;
+            border-radius: 8px;
+            margin-top: 10px;
+            overflow: hidden;
+        }
+
+        .doctor-warning {
+            background: #fff8e7;
+            border-left: 4px solid #e5a000;
+            padding: 15px;
+            border-radius: 6px;
+            margin-top: 18px;
+        }
+
+        .doctor-error {
+            background: #fff0f0;
+            border-left: 4px solid #d94343;
+            padding: 15px;
+            border-radius: 6px;
+        }
+
+        .disease-info {
+            background: #f4faf5;
+            border: 1px solid #d6eadb;
+            border-radius: 12px;
+            padding: 22px;
+            margin-top: 25px;
+        }
+
+        .disease-info h3 {
+            color: #176b3a;
+            margin-bottom: 18px;
+        }
+
+        .disease-info h4 {
+            color: #245d38;
+            margin-top: 18px;
+            margin-bottom: 8px;
+        }
+
+        .disease-info p,
+        .disease-info li {
+            color: #46534a;
+            line-height: 1.7;
+        }
+
+        .disease-info ul {
+            padding-left: 22px;
+        }
+
+        .doctor-back {
+            display: inline-block;
+            margin-top: 15px;
+            color: #176b3a;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .doctor-back:hover {
+            text-decoration: underline;
+        }
+
+
+@media (max-width: 600px) {
+
+    .doctor-container {
+        width: 100%;
+        max-width: 100%;
+        margin: 10px auto;
+        padding: 12px;
+        box-sizing: border-box;
+    }
+
+    .upload-card,
+    .result-card {
+        padding: 18px;
+        border-radius: 12px;
+    }
+
+    .doctor-header h1 {
+        font-size: 22px;
+        line-height: 1.4;
+    }
+
+    .doctor-button {
+        width: 100%;
+        padding: 14px;
+    }
+
+    .upload-area {
+        padding: 22px 12px;
+    }
+
+    .upload-area input {
+        width: 100%;
+        font-size: 13px;
+    }
+
+    .confidence-label strong {
+        font-size: 18px;
+    }
+
+    .disease-info {
+        padding: 16px;
+    }
+
+    .prediction-item {
+        font-size: 14px;
+    }
+
+    .doctor-warning {
+        font-size: 14px;
+    }
+
+}
+
+        .confidence-label {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 15px;
+    color: #176b3a;
+}
+
+.confidence-label strong {
+    font-size: 20px;
+}
+
+.confidence-note {
+    font-size: 13px;
+    color: #68766d;
+    margin-top: 6px;
+}
+    </style>
+</head>
+
+<body>
+
+<div class="doctor-container">
+
+    <!-- HEADER -->
+
+    <div class="doctor-header">
+
+        <h1>🌿 KrishiMitra AI – Crop Doctor</h1>
+
+        <p>
+            Upload a photograph of a Black Gram leaf.
+            Our AI model will analyse it and identify
+            possible disease symptoms.
+        </p>
+
+        <p>
+            <strong>Supported crop:</strong>
+            Black Gram (Urad)
+        </p>
+
+    </div>
+
+
+    <!-- IMAGE UPLOAD -->
+
+    <div class="upload-card">
+
+        <h2>Upload Leaf Photograph</h2>
+
+        <p>
+            For better results, upload a clear,
+            well-lit photograph of an individual leaf.
+        </p>
+
+        <form method="POST"
+              action="{{ url_for('crop_doctor') }}"
+              enctype="multipart/form-data">
+
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+            <div class="upload-area">
+
+                <h3>📷 Select Leaf Image</h3>
+
+               <input
+    type="file"
+    id="leafImage"
+    name="leaf_image"
+    accept=".jpg,.jpeg,.png,.webp"
+    required
+>
+
+<div id="imagePreviewContainer" style="display:none; margin-top:20px;">
+    <h4>Selected Leaf Image</h4>
+    <img
+        id="imagePreview"
+        src=""
+        alt="Selected leaf preview"
+        style="max-width:250px; width:100%; border-radius:12px;"
+    >
+</div>
+
+                <small>
+                    Supported formats: JPG, JPEG, PNG, WEBP.
+                    Maximum size: 5 MB.
+                </small>
+
+            </div>
+
+            <button type="submit" class="doctor-button">
+                Analyse Leaf with AI
+            </button>
+
+        </form>
+
+    </div>
+
+
+    <!-- AI RESULT -->
+
+    {% if result %}
+
+    <div class="result-card">
+
+        {% if result.success %}
+
+            <h2>AI Analysis Result</h2>
+
+            {% if result.reliable_prediction %}
+
+                <h3>
+                    🌱 {{ result.predicted_disease }}
+                </h3>
+
+                <div class="confidence-label">
+    <span>Model Confidence Score</span>
+    <strong>{{ result.confidence }}%</strong>
+</div>
+
+<p class="confidence-note">
+    This score represents the model's confidence, not a confirmed disease probability.
+</p>
+
+                <div class="confidence-bar">
+                    <div class="confidence-fill"
+                         style="width: {{ result.confidence }}%;">
+                    </div>
+                </div>
+
+            {% else %}
+
+                <div class="doctor-warning">
+
+                    <strong>⚠️ Low-confidence prediction</strong>
+
+                    <p>{{ result.message }}</p>
+
+                    <p>
+                        Please upload a clearer image or
+                        consult an agricultural expert.
+                    </p>
+
+                </div>
+
+            {% endif %}
+
+
+            <!-- TOP THREE PREDICTIONS -->
+
+            <h3>Top Predictions</h3>
+
+            {% for item in result.top_predictions %}
+
+                <div class="prediction-item">
+
+                    <strong>{{ item.disease }}</strong>
+
+                    <span style="float:right">
+                        {{ item.confidence }}%
+                    </span>
+
+                </div>
+
+            {% endfor %}
+
+
+            <!-- DISEASE INFORMATION -->
+
+            {% if result.reliable_prediction %}
+
+            <div class="disease-info">
+
+                <h3>🌿 Disease Information & Prevention</h3>
+
+
+                {% if result.predicted_disease == "Anthracnose" %}
+
+                    <h4>About Anthracnose</h4>
+
+                    <p>
+                        Anthracnose is a fungal disease that
+                        can affect Black Gram leaves, stems
+                        and pods.
+                    </p>
+
+                    <h4>Common Symptoms</h4>
+
+                    <ul>
+                        <li>Dark brown or black spots on leaves.</li>
+                        <li>Sunken lesions on infected plant parts.</li>
+                        <li>In severe cases, lesions may spread to stems and pods.</li>
+                    </ul>
+
+                    <h4>Preventive Measures</h4>
+
+                    <ul>
+                        <li>Use healthy, disease-free seeds.</li>
+                        <li>Remove infected plant residues from the field.</li>
+                        <li>Avoid excessive moisture and overcrowding.</li>
+                        <li>Monitor plants regularly for new symptoms.</li>
+                    </ul>
+
+
+                {% elif result.predicted_disease == "Healthy" %}
+
+                    <h4>Healthy Leaf 🌱</h4>
+
+                    <p>
+                        The model identified this image as Healthy.
+                        No disease was confidently identified by
+                        the model.
+                    </p>
+
+                    <h4>Recommended Practices</h4>
+
+                    <ul>
+                        <li>Continue regular crop monitoring.</li>
+                        <li>Maintain balanced irrigation.</li>
+                        <li>Use healthy seeds for future sowing.</li>
+                        <li>Check both sides of leaves regularly.</li>
+                    </ul>
+
+
+                {% elif result.predicted_disease == "Leaf Crinkle" %}
+
+                    <h4>About Leaf Crinkle</h4>
+
+                    <p>
+                        Leaf Crinkle is a viral disease associated
+                        with abnormal leaf development in Black Gram.
+                    </p>
+
+                    <h4>Common Symptoms</h4>
+
+                    <ul>
+                        <li>Crinkling and puckering of leaves.</li>
+                        <li>Leaf curling and deformation.</li>
+                        <li>Reduced plant growth in affected plants.</li>
+                    </ul>
+
+                    <h4>Preventive Measures</h4>
+
+                    <ul>
+                        <li>Use healthy and certified seeds.</li>
+                        <li>Monitor the field for abnormal leaf growth.</li>
+                        <li>Remove severely affected plants where appropriate.</li>
+                        <li>Monitor possible insect vectors and seek local agricultural advice.</li>
+                    </ul>
+
+
+                {% elif result.predicted_disease == "Powdery Mildew" %}
+
+                    <h4>About Powdery Mildew</h4>
+
+                    <p>
+                        Powdery Mildew is a fungal disease
+                        commonly recognized by powder-like
+                        fungal growth on plant surfaces.
+                    </p>
+
+                    <h4>Common Symptoms</h4>
+
+                    <ul>
+                        <li>White powdery patches on leaves.</li>
+                        <li>Gradual yellowing of affected leaves.</li>
+                        <li>In severe cases, drying of leaves.</li>
+                    </ul>
+
+                    <h4>Preventive Measures</h4>
+
+                    <ul>
+                        <li>Maintain proper spacing between plants.</li>
+                        <li>Monitor leaves regularly for white patches.</li>
+                        <li>Remove heavily infected plant residues.</li>
+                        <li>Avoid unnecessary excessive nitrogen application.</li>
+                    </ul>
+
+
+                {% elif result.predicted_disease == "Yellow Mosaic" %}
+
+                    <h4>About Yellow Mosaic</h4>
+
+                    <p>
+                        Yellow Mosaic is a viral disease of
+                        Black Gram, commonly associated with
+                        whitefly transmission.
+                    </p>
+
+                    <h4>Common Symptoms</h4>
+
+                    <ul>
+                        <li>Yellow and green mosaic-like patterns on leaves.</li>
+                        <li>Yellowing of affected leaf areas.</li>
+                        <li>Reduced plant growth and yield in severe cases.</li>
+                    </ul>
+
+                    <h4>Preventive Measures</h4>
+
+                    <ul>
+                        <li>Use resistant varieties recommended for your region.</li>
+                        <li>Monitor crops for whitefly activity.</li>
+                        <li>Remove severely affected plants where appropriate.</li>
+                        <li>Maintain field sanitation and control weeds that may host vectors.</li>
+                    </ul>
+
+                {% endif %}
+
+            </div>
+
+            {% endif %}
+
+
+            <!-- IMPORTANT ADVISORY -->
+
+            <div class="doctor-warning">
+
+                <strong>⚠️ Important Advisory</strong>
+
+                <p>
+                    This is an AI-generated screening result,
+                    not a confirmed agricultural diagnosis.
+                    The model confidence score is not a
+                    calibrated disease probability.
+                </p>
+
+                <p>
+                    Do not apply pesticides or other treatments
+                    based only on this prediction. Consult a
+                    qualified agricultural expert for
+                    confirmation and treatment advice.
+                </p>
+
+            </div>
+
+
+        {% else %}
+
+            <div class="doctor-error">
+
+                <strong>Analysis Failed</strong>
+
+                <p>{{ result.message }}</p>
+
+            </div>
+
+        {% endif %}
+
+    </div>
+
+    {% endif %}
+
+
+    <!-- BACK TO DASHBOARD -->
+
+    <a href="{{ url_for('home') }}" class="doctor-back">
+        ← Back to Dashboard
+    </a>
+
+</div>
+
+<script>
+    const leafInput = document.getElementById("leafImage");
+    const previewContainer = document.getElementById("imagePreviewContainer");
+    const previewImage = document.getElementById("imagePreview");
+
+    leafInput.addEventListener("change", function () {
+
+        const file = this.files[0];
+
+        if (!file) {
+            previewContainer.style.display = "none";
+            previewImage.src = "";
+            return;
+        }
+
+        const allowedTypes = [
+            "image/jpeg",
+            "image/png",
+            "image/webp"
+        ];
+
+        if (!allowedTypes.includes(file.type)) {
+            alert("Please select a JPG, PNG or WEBP image.");
+            this.value = "";
+            previewContainer.style.display = "none";
+            return;
+        }
+
+        if (file.size > 5 * 1024 * 1024) {
+            alert("Image size must be below 5 MB.");
+            this.value = "";
+            previewContainer.style.display = "none";
+            return;
+        }
+
+        const imageURL = URL.createObjectURL(file);
+
+        previewImage.src = imageURL;
+        previewContainer.style.display = "block";
+    });
+</script>
+</body>
+</html>
+
+</body>
+</html>

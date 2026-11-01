@@ -1,0 +1,619 @@
+{
+    "class_names": [
+        "Anthracnose 230",
+        "Healthy 220",
+        "Leaf Crinckle 150",
+        "Powdery Mildew 180",
+        "Yellow Mosaic 220"
+    ],
+    "images": [
+        {
+            "path": "datasets\\blackgram_disease\\BPLD Dataset\\Yellow Mosaic 220\\18y.jpg",
+            "label": 4
+        },
+        {
+            "path": "datasets\\blackgram_disease\\BPLD Dataset\\Powdery Mildew 180\\100p.jpg",
+            "label": 3
+        },
+        {
+            "path": "datasets\\blackgram_disease\\BPLD Dataset\\Yellow Mosaic 220\\70y.jpg",
+            "label": 4
+        },
+        {
+            "path": "datasets\\blackgram_disease\\BPLD Dataset\\Leaf Crinckle 150\\20l.jpg",
+            "label": 2
+        },
+        {
+            "path": "datasets\\blackgram_disease\\BPLD Dataset\\Yellow Mosaic 220\\80y.jpg",
+            "label": 4
+        },
+        {
+            "path": "datasets\\blackgram_disease\\BPLD Dataset\\Yellow Mosaic 220\\61y.jpg",
+            "label": 4
+        },
+        {
+            "path": "datasets\\blackgram_disease\\BPLD Dataset\\Powdery Mildew 180\\84p.jpg",
+            "label": 3
+        },
+        {
+            "path": "datasets\\blackgram_disease\\BPLD Dataset\\Anthracnose 230\\205a.jpg",
+            "label": 0
+        },
+        {
+            "path": "datasets\\blackgram_disease\\BPLD Dataset\\Powdery Mildew 180\\55p.jpg",
+            "label": 3
+        },
+        {
+            "path": "datasets\\blackgram_disease\\BPLD Dataset\\Leaf Crinckle 150\\110l.jpg",
+            "label": 2
+        },
+        {
+            "path": "datasets\\blackgram_disease\\BPLD Dataset\\Yellow Mosaic 220\\1y.jpg",
+            "label": 4
+        },
+        {
+            "path": "datasets\\blackgram_disease\\BPLD Dataset\\Healthy 220\\72h.jpg",
+            "label": 1
+        },
+        {
+            "path": "datasets\\blackgram_disease\\BPLD Dataset\\Powdery Mildew 180\\155p.jpg",
+            "label": 3
+        },
+        {
+            "path": "datasets\\blackgram_disease\\BPLD Dataset\\Powdery Mildew 180\\112p.jpg",
+            "label": 3
+        },
+        {
+            "path": "datasets\\blackgram_disease\\BPLD Dataset\\Yellow Mosaic 220\\194y.jpg",
+            "label": 4
+        },
+        {
+            "path": "datasets\\blackgram_disease\\BPLD Dataset\\Yellow Mosaic 220\\141y.jpg",
+            "label": 4
+        },
+        {
+            "path": "datasets\\blackgram_disease\\BPLD Dataset\\Healthy 220\\218h.jpg",
+            "label": 1
+        },
+        {
+            "path": "datasets\\blackgram_disease\\BPLD Dataset\\Powdery Mildew 180\\102p.jpg",
+            "label": 3
+        },
+        {
+            "path": "datasets\\blackgram_disease\\BPLD Dataset\\Healthy 220\\143h.jpg",
+            "label": 1
+        },
+        {
+            "path": "datasets\\blackgram_disease\\BPLD Dataset\\Yellow Mosaic 220\\123y.jpg",
+            "label": 4
+        },
+        {
+            "path": "datasets\\blackgram_disease\\BPLD Dataset\\Yellow Mosaic 220\\54y.jpg",
+            "label": 4
+        },
+        {
+            "path": "datasets\\blackgram_disease\\BPLD Dataset\\Anthracnose 230\\86a.jpg",
+            "label": 0
+        },
+        {
+            "path": "datasets\\blackgram_disease\\BPLD Dataset\\Healthy 220\\32h.jpg",
+            "label": 1
+        },
+        {
+            "path": "datasets\\blackgram_disease\\BPLD Dataset\\Anthracnose 230\\63a.jpg",
+            "label": 0
+        },
+        {
+            "path": "datasets\\blackgram_disease\\BPLD Dataset\\Powdery Mildew 180\\74p.jpg",
+            "label": 3
+        },
+        {
+            "path": "datasets\\blackgram_disease\\BPLD Dataset\\Powdery Mildew 180\\107p.jpg",
+            "label": 3
+        },
+        {
+            "path": "datasets\\blackgram_disease\\BPLD Dataset\\Healthy 220\\174h.jpg",
+            "label": 1
+        },
+        {
+            "path": "datasets\\blackgram_disease\\BPLD Dataset\\Anthracnose 230\\34a.jpg",
+            "label": 0
+        },
+        {
+            "path": "datasets\\blackgram_disease\\BPLD Dataset\\Anthracnose 230\\61a.jpg",
+            "label": 0
+        },
+        {
+            "path": "datasets\\blackgram_disease\\BPLD Dataset\\Powdery Mildew 180\\80p.jpg",
+            "label": 3
+        },
+        {
+            "path": "datasets\\blackgram_disease\\BPLD Dataset\\Anthracnose 230\\217a.jpg",
+            "label": 0
+        },
+        {
+            "path": "datasets\\blackgram_disease\\BPLD Dataset\\Yellow Mosaic 220\\67y.jpg",
+            "label": 4
+        },
+        {
+            "path": "datasets\\blackgram_disease\\BPLD Dataset\\Healthy 220\\181h.jpg",
+            "label": 1
+        },
+        {
+            "path": "datasets\\blackgram_disease\\BPLD Dataset\\Powdery Mildew 180\\135p.jpg",
+            "label": 3
+        },
+        {
+            "path": "datasets\\blackgram_disease\\BPLD Dataset\\Yellow Mosaic 220\\184y.jpg",
+            "label": 4
+        },
+        {
+            "path": "datasets\\blackgram_disease\\BPLD Dataset\\Healthy 220\\200h.jpg",
+            "label": 1
+        },
+        {
+            "path": "datasets\\blackgram_disease\\BPLD Dataset\\Healthy 220\\99h.jpg",
+            "label": 1
+        },
+        {
+            "path": "datasets\\blackgram_disease\\BPLD Dataset\\Leaf Crinckle 150\\142l.jpg",
+            "label": 2
+        },
+        {
+            "path": "datasets\\blackgram_disease\\BPLD Dataset\\Healthy 220\\31h.jpg",
+            "label": 1
+        },
+        {
+            "path": "datasets\\blackgram_disease\\BPLD Dataset\\Leaf Crinckle 150\\120l.jpg",
+            "label": 2
+        },
+        {
+            "path": "datasets\\blackgram_disease\\BPLD Dataset\\Powdery Mildew 180\\64p.jpg",
+            "label": 3
+        },
+        {
+            "path": "datasets\\blackgram_disease\\BPLD Dataset\\Healthy 220\\216h.jpg",
+            "label": 1
+        },
+        {
+            "path": "datasets\\blackgram_disease\\BPLD Dataset\\Powdery Mildew 180\\150p.jpg",
+            "label": 3
+        },
+        {
+            "path": "datasets\\blackgram_disease\\BPLD Dataset\\Anthracnose 230\\194a.jpg",
+            "label": 0
+        },
+        {
+            "path": "datasets\\blackgram_disease\\BPLD Dataset\\Yellow Mosaic 220\\150y.jpg",
+            "label": 4
+        },
+        {
+            "path": "datasets\\blackgram_disease\\BPLD Dataset\\Healthy 220\\119h.jpg",
+            "label": 1
+        },
+        {
+            "path": "datasets\\blackgram_disease\\BPLD Dataset\\Anthracnose 230\\197a.jpg",
+            "label": 0
+        },
+        {
+            "path": "datasets\\blackgram_disease\\BPLD Dataset\\Anthracnose 230\\116a.jpg",
+            "label": 0
+        },
+        {
+            "path": "datasets\\blackgram_disease\\BPLD Dataset\\Anthracnose 230\\173a.jpg",
+            "label": 0
+        },
+        {
+            "path": "datasets\\blackgram_disease\\BPLD Dataset\\Leaf Crinckle 150\\52l.jpg",
+            "label": 2
+        },
+        {
+            "path": "datasets\\blackgram_disease\\BPLD Dataset\\Anthracnose 230\\181a.jpg",
+            "label": 0
+        },
+        {
+            "path": "datasets\\blackgram_disease\\BPLD Dataset\\Leaf Crinckle 150\\109l.jpg",
+            "label": 2
+        },
+        {
+            "path": "datasets\\blackgram_disease\\BPLD Dataset\\Powdery Mildew 180\\76p.jpg",
+            "label": 3
+        },
+        {
+            "path": "datasets\\blackgram_disease\\BPLD Dataset\\Healthy 220\\33h.jpg",
+            "label": 1
+        },
+        {
+            "path": "datasets\\blackgram_disease\\BPLD Dataset\\Leaf Crinckle 150\\39l.jpg",
+            "label": 2
+        },
+        {
+            "path": "datasets\\blackgram_disease\\BPLD Dataset\\Leaf Crinckle 150\\90l.jpg",
+            "label": 2
+        },
+        {
+            "path": "datasets\\blackgram_disease\\BPLD Dataset\\Leaf Crinckle 150\\69l.jpg",
+            "label": 2
+        },
+        {
+            "path": "datasets\\blackgram_disease\\BPLD Dataset\\Anthracnose 230\\54a.jpg",
+            "label": 0
+        },
+        {
+            "path": "datasets\\blackgram_disease\\BPLD Dataset\\Healthy 220\\19h.jpg",
+            "label": 1
+        },
+        {
+            "path": "datasets\\blackgram_disease\\BPLD Dataset\\Yellow Mosaic 220\\172y.jpg",
+            "label": 4
+        },
+        {
+            "path": "datasets\\blackgram_disease\\BPLD Dataset\\Anthracnose 230\\76a.jpg",
+            "label": 0
+        },
+        {
+            "path": "datasets\\blackgram_disease\\BPLD Dataset\\Anthracnose 230\\11a.jpg",
+            "label": 0
+        },
+        {
+            "path": "datasets\\blackgram_disease\\BPLD Dataset\\Healthy 220\\176h.jpg",
+            "label": 1
+        },
+        {
+            "path": "datasets\\blackgram_disease\\BPLD Dataset\\Anthracnose 230\\93a.jpg",
+            "label": 0
+        },
+        {
+            "path": "datasets\\blackgram_disease\\BPLD Dataset\\Yellow Mosaic 220\\112y.jpg",
+            "label": 4
+        },
+        {
+            "path": "datasets\\blackgram_disease\\BPLD Dataset\\Anthracnose 230\\1a.jpg",
+            "label": 0
+        },
+        {
+            "path": "datasets\\blackgram_disease\\BPLD Dataset\\Anthracnose 230\\112a.jpg",
+            "label": 0
+        },
+        {
+            "path": "datasets\\blackgram_disease\\BPLD Dataset\\Yellow Mosaic 220\\140y.jpg",
+            "label": 4
+        },
+        {
+            "path": "datasets\\blackgram_disease\\BPLD Dataset\\Powdery Mildew 180\\110p.jpg",
+            "label": 3
+        },
+        {
+            "path": "datasets\\blackgram_disease\\BPLD Dataset\\Healthy 220\\97h.jpg",
+            "label": 1
+        },
+        {
+            "path": "datasets\\blackgram_disease\\BPLD Dataset\\Powdery Mildew 180\\152p.jpg",
+            "label": 3
+        },
+        {
+            "path": "datasets\\blackgram_disease\\BPLD Dataset\\Healthy 220\\68h.jpg",
+            "label": 1
+        },
+        {
+            "path": "datasets\\blackgram_disease\\BPLD Dataset\\Healthy 220\\80h.jpg",
+            "label": 1
+        },
+        {
+            "path": "datasets\\blackgram_disease\\BPLD Dataset\\Yellow Mosaic 220\\185y.jpg",
+            "label": 4
+        },
+        {
+            "path": "datasets\\blackgram_disease\\BPLD Dataset\\Leaf Crinckle 150\\136l.jpg",
+            "label": 2
+        },
+        {
+            "path": "datasets\\blackgram_disease\\BPLD Dataset\\Leaf Crinckle 150\\101l.jpg",
+            "label": 2
+        },
+        {
+            "path": "datasets\\blackgram_disease\\BPLD Dataset\\Healthy 220\\2h.jpg",
+            "label": 1
+        },
+        {
+            "path": "datasets\\blackgram_disease\\BPLD Dataset\\Healthy 220\\12h.jpg",
+            "label": 1
+        },
+        {
+            "path": "datasets\\blackgram_disease\\BPLD Dataset\\Yellow Mosaic 220\\157y.jpg",
+            "label": 4
+        },
+        {
+            "path": "datasets\\blackgram_disease\\BPLD Dataset\\Leaf Crinckle 150\\3l.jpg",
+            "label": 2
+        },
+        {
+            "path": "datasets\\blackgram_disease\\BPLD Dataset\\Yellow Mosaic 220\\11y.jpg",
+            "label": 4
+        },
+        {
+            "path": "datasets\\blackgram_disease\\BPLD Dataset\\Yellow Mosaic 220\\143y.jpg",
+            "label": 4
+        },
+        {
+            "path": "datasets\\blackgram_disease\\BPLD Dataset\\Anthracnose 230\\165a.jpg",
+            "label": 0
+        },
+        {
+            "path": "datasets\\blackgram_disease\\BPLD Dataset\\Healthy 220\\90h.jpg",
+            "label": 1
+        },
+        {
+            "path": "datasets\\blackgram_disease\\BPLD Dataset\\Powdery Mildew 180\\58p.jpg",
+            "label": 3
+        },
+        {
+            "path": "datasets\\blackgram_disease\\BPLD Dataset\\Leaf Crinckle 150\\126l.jpg",
+            "label": 2
+        },
+        {
+            "path": "datasets\\blackgram_disease\\BPLD Dataset\\Healthy 220\\135h.jpg",
+            "label": 1
+        },
+        {
+            "path": "datasets\\blackgram_disease\\BPLD Dataset\\Healthy 220\\87h.jpg",
+            "label": 1
+        },
+        {
+            "path": "datasets\\blackgram_disease\\BPLD Dataset\\Anthracnose 230\\62a.jpg",
+            "label": 0
+        },
+        {
+            "path": "datasets\\blackgram_disease\\BPLD Dataset\\Yellow Mosaic 220\\58y.jpg",
+            "label": 4
+        },
+        {
+            "path": "datasets\\blackgram_disease\\BPLD Dataset\\Yellow Mosaic 220\\73y.jpg",
+            "label": 4
+        },
+        {
+            "path": "datasets\\blackgram_disease\\BPLD Dataset\\Powdery Mildew 180\\50p.jpg",
+            "label": 3
+        },
+        {
+            "path": "datasets\\blackgram_disease\\BPLD Dataset\\Anthracnose 230\\74a.jpg",
+            "label": 0
+        },
+        {
+            "path": "datasets\\blackgram_disease\\BPLD Dataset\\Powdery Mildew 180\\88p.jpg",
+            "label": 3
+        },
+        {
+            "path": "datasets\\blackgram_disease\\BPLD Dataset\\Anthracnose 230\\218a.jpg",
+            "label": 0
+        },
+        {
+            "path": "datasets\\blackgram_disease\\BPLD Dataset\\Leaf Crinckle 150\\146l.jpg",
+            "label": 2
+        },
+        {
+            "path": "datasets\\blackgram_disease\\BPLD Dataset\\Leaf Crinckle 150\\49l.jpg",
+            "label": 2
+        },
+        {
+            "path": "datasets\\blackgram_disease\\BPLD Dataset\\Leaf Crinckle 150\\114l.jpg",
+            "label": 2
+        },
+        {
+            "path": "datasets\\blackgram_disease\\BPLD Dataset\\Yellow Mosaic 220\\84y.jpg",
+            "label": 4
+        },
+        {
+            "path": "datasets\\blackgram_disease\\BPLD Dataset\\Yellow Mosaic 220\\37y.jpg",
+            "label": 4
+        },
+        {
+            "path": "datasets\\blackgram_disease\\BPLD Dataset\\Healthy 220\\76h.jpg",
+            "label": 1
+        },
+        {
+            "path": "datasets\\blackgram_disease\\BPLD Dataset\\Powdery Mildew 180\\132p.jpg",
+            "label": 3
+        },
+        {
+            "path": "datasets\\blackgram_disease\\BPLD Dataset\\Yellow Mosaic 220\\142y.jpg",
+            "label": 4
+        },
+        {
+            "path": "datasets\\blackgram_disease\\BPLD Dataset\\Anthracnose 230\\82a.jpg",
+            "label": 0
+        },
+        {
+            "path": "datasets\\blackgram_disease\\BPLD Dataset\\Yellow Mosaic 220\\89y.jpg",
+            "label": 4
+        },
+        {
+            "path": "datasets\\blackgram_disease\\BPLD Dataset\\Healthy 220\\194h.jpg",
+            "label": 1
+        },
+        {
+            "path": "datasets\\blackgram_disease\\BPLD Dataset\\Powdery Mildew 180\\19p.jpg",
+            "label": 3
+        },
+        {
+            "path": "datasets\\blackgram_disease\\BPLD Dataset\\Leaf Crinckle 150\\103l.jpg",
+            "label": 2
+        },
+        {
+            "path": "datasets\\blackgram_disease\\BPLD Dataset\\Healthy 220\\92h.jpg",
+            "label": 1
+        },
+        {
+            "path": "datasets\\blackgram_disease\\BPLD Dataset\\Powdery Mildew 180\\13p.jpg",
+            "label": 3
+        },
+        {
+            "path": "datasets\\blackgram_disease\\BPLD Dataset\\Healthy 220\\75h.jpg",
+            "label": 1
+        },
+        {
+            "path": "datasets\\blackgram_disease\\BPLD Dataset\\Healthy 220\\62h.jpg",
+            "label": 1
+        },
+        {
+            "path": "datasets\\blackgram_disease\\BPLD Dataset\\Yellow Mosaic 220\\183y.jpg",
+            "label": 4
+        },
+        {
+            "path": "datasets\\blackgram_disease\\BPLD Dataset\\Yellow Mosaic 220\\21y.jpg",
+            "label": 4
+        },
+        {
+            "path": "datasets\\blackgram_disease\\BPLD Dataset\\Healthy 220\\9h.jpg",
+            "label": 1
+        },
+        {
+            "path": "datasets\\blackgram_disease\\BPLD Dataset\\Healthy 220\\7h.jpg",
+            "label": 1
+        },
+        {
+            "path": "datasets\\blackgram_disease\\BPLD Dataset\\Healthy 220\\106h.jpg",
+            "label": 1
+        },
+        {
+            "path": "datasets\\blackgram_disease\\BPLD Dataset\\Powdery Mildew 180\\163p.jpg",
+            "label": 3
+        },
+        {
+            "path": "datasets\\blackgram_disease\\BPLD Dataset\\Yellow Mosaic 220\\63y.jpg",
+            "label": 4
+        },
+        {
+            "path": "datasets\\blackgram_disease\\BPLD Dataset\\Anthracnose 230\\154a.jpg",
+            "label": 0
+        },
+        {
+            "path": "datasets\\blackgram_disease\\BPLD Dataset\\Healthy 220\\168h.jpg",
+            "label": 1
+        },
+        {
+            "path": "datasets\\blackgram_disease\\BPLD Dataset\\Anthracnose 230\\20a.jpg",
+            "label": 0
+        },
+        {
+            "path": "datasets\\blackgram_disease\\BPLD Dataset\\Yellow Mosaic 220\\41y.jpg",
+            "label": 4
+        },
+        {
+            "path": "datasets\\blackgram_disease\\BPLD Dataset\\Leaf Crinckle 150\\100l.jpg",
+            "label": 2
+        },
+        {
+            "path": "datasets\\blackgram_disease\\BPLD Dataset\\Leaf Crinckle 150\\66l.jpg",
+            "label": 2
+        },
+        {
+            "path": "datasets\\blackgram_disease\\BPLD Dataset\\Anthracnose 230\\101a.jpg",
+            "label": 0
+        },
+        {
+            "path": "datasets\\blackgram_disease\\BPLD Dataset\\Leaf Crinckle 150\\6l.jpg",
+            "label": 2
+        },
+        {
+            "path": "datasets\\blackgram_disease\\BPLD Dataset\\Powdery Mildew 180\\43p.jpg",
+            "label": 3
+        },
+        {
+            "path": "datasets\\blackgram_disease\\BPLD Dataset\\Anthracnose 230\\14a.jpg",
+            "label": 0
+        },
+        {
+            "path": "datasets\\blackgram_disease\\BPLD Dataset\\Leaf Crinckle 150\\80l.jpg",
+            "label": 2
+        },
+        {
+            "path": "datasets\\blackgram_disease\\BPLD Dataset\\Anthracnose 230\\65a.jpg",
+            "label": 0
+        },
+        {
+            "path": "datasets\\blackgram_disease\\BPLD Dataset\\Anthracnose 230\\107a.jpg",
+            "label": 0
+        },
+        {
+            "path": "datasets\\blackgram_disease\\BPLD Dataset\\Anthracnose 230\\184a.jpg",
+            "label": 0
+        },
+        {
+            "path": "datasets\\blackgram_disease\\BPLD Dataset\\Yellow Mosaic 220\\163y.jpg",
+            "label": 4
+        },
+        {
+            "path": "datasets\\blackgram_disease\\BPLD Dataset\\Anthracnose 230\\64a.jpg",
+            "label": 0
+        },
+        {
+            "path": "datasets\\blackgram_disease\\BPLD Dataset\\Powdery Mildew 180\\6p.jpg",
+            "label": 3
+        },
+        {
+            "path": "datasets\\blackgram_disease\\BPLD Dataset\\Anthracnose 230\\168a.jpg",
+            "label": 0
+        },
+        {
+            "path": "datasets\\blackgram_disease\\BPLD Dataset\\Yellow Mosaic 220\\62y.jpg",
+            "label": 4
+        },
+        {
+            "path": "datasets\\blackgram_disease\\BPLD Dataset\\Yellow Mosaic 220\\187y.jpg",
+            "label": 4
+        },
+        {
+            "path": "datasets\\blackgram_disease\\BPLD Dataset\\Anthracnose 230\\6a.jpg",
+            "label": 0
+        },
+        {
+            "path": "datasets\\blackgram_disease\\BPLD Dataset\\Anthracnose 230\\73a.jpg",
+            "label": 0
+        },
+        {
+            "path": "datasets\\blackgram_disease\\BPLD Dataset\\Powdery Mildew 180\\1p.jpg",
+            "label": 3
+        },
+        {
+            "path": "datasets\\blackgram_disease\\BPLD Dataset\\Anthracnose 230\\27a.jpg",
+            "label": 0
+        },
+        {
+            "path": "datasets\\blackgram_disease\\BPLD Dataset\\Powdery Mildew 180\\117p.jpg",
+            "label": 3
+        },
+        {
+            "path": "datasets\\blackgram_disease\\BPLD Dataset\\Healthy 220\\37h.jpg",
+            "label": 1
+        },
+        {
+            "path": "datasets\\blackgram_disease\\BPLD Dataset\\Leaf Crinckle 150\\53l.jpg",
+            "label": 2
+        },
+        {
+            "path": "datasets\\blackgram_disease\\BPLD Dataset\\Yellow Mosaic 220\\100y.jpg",
+            "label": 4
+        },
+        {
+            "path": "datasets\\blackgram_disease\\BPLD Dataset\\Powdery Mildew 180\\31p.jpg",
+            "label": 3
+        },
+        {
+            "path": "datasets\\blackgram_disease\\BPLD Dataset\\Healthy 220\\138h.jpg",
+            "label": 1
+        },
+        {
+            "path": "datasets\\blackgram_disease\\BPLD Dataset\\Healthy 220\\28h.jpg",
+            "label": 1
+        },
+        {
+            "path": "datasets\\blackgram_disease\\BPLD Dataset\\Anthracnose 230\\90a.jpg",
+            "label": 0
+        },
+        {
+            "path": "datasets\\blackgram_disease\\BPLD Dataset\\Leaf Crinckle 150\\129l.jpg",
+            "label": 2
+        }
+    ]
+}

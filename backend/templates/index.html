@@ -1,0 +1,507 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KrishiMitra AI</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&display=swap"
+          rel="stylesheet">
+
+    <style>
+        /* Clickable dashboard cards */
+        .tool-card {
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .tool-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 22px rgba(0, 0, 0, 0.08);
+        }
+
+        .tool-card:focus-visible {
+            outline: 2px solid #16834a;
+            outline-offset: 4px;
+        }
+
+        .tool-card .tool-action {
+            display: inline-block;
+            color: #16834a;
+            font-weight: 700;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="app">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+
+        <div class="brand">
+            <div class="brand-icon">🌾</div>
+            <div>
+                <h2>KrishiMitra<span> AI</span></h2>
+                <small>SMART FARMING PLATFORM</small>
+            </div>
+        </div>
+
+        <p class="nav-heading"
+           data-en="MAIN MENU"
+           data-hi="मुख्य मेनू">
+            MAIN MENU
+        </p>
+
+        <nav>
+
+            <a href="/" class="nav-link active"
+               data-en="▦ Dashboard"
+               data-hi="▦ डैशबोर्ड">
+                ▦ Dashboard
+            </a>
+
+            <a href="/advisor" class="nav-link"
+               data-en="🌱 Crop Advisor"
+               data-hi="🌱 फसल सलाहकार">
+                🌱 Crop Advisor
+            </a>
+
+            <a href="{{ url_for('crop_planner') }}" class="nav-link"
+               data-en="🌾 Crop Planner"
+               data-hi="🌾 फसल योजना">
+                🌾 Crop Planner
+            </a>
+
+            <a href="{{ url_for('crop_history') }}" class="nav-link">
+    <span>📋</span>
+    <span data-en="Crop History" data-hi="फसल इतिहास">
+        Crop History
+    </span>
+</a>
+
+            <a href="{{ url_for('crop_doctor') }}" class="nav-link"
+               data-en="🔬 Crop Doctor"
+               data-hi="🔬 फसल रोग पहचान">
+                🔬 Crop Doctor
+            </a>
+
+            <a href="{{ url_for('crop_planner') }}" class="nav-link"
+               data-en="₹ Profit Calculator"
+               data-hi="₹ लाभ कैलकुलेटर">
+                ₹ Profit Calculator
+            </a>
+
+            <a href="{{ url_for('farm_analytics') }}" class="nav-link"
+               data-en="📊 Farm Analytics"
+               data-hi="📊 खेती का विश्लेषण">
+                📊 Farm Analytics
+            </a>
+
+            <a href="{{ url_for('weather_page') }}" class="nav-link"
+               data-en="🌦️ Weather Insights"
+               data-hi="🌦️ मौसम की जानकारी">
+                🌦️ Weather Insights
+            </a>
+
+        </nav>
+
+        <div class="sidebar-bottom">
+
+            <div class="help-card">
+                <div>🌿</div>
+
+                <strong data-en="Growing smarter?"
+                         data-hi="स्मार्ट खेती करें?">
+                    Growing smarter?
+                </strong>
+
+                <p data-en="Make better farming decisions with AI."
+                   data-hi="AI की मदद से खेती के बेहतर फैसले लें।">
+                    Make better farming decisions with AI.
+                </p>
+            </div>
+
+            <small>KrishiMitra AI · Version 1.0</small>
+
+        </div>
+
+    </aside>
+
+
+    <!-- MAIN CONTENT -->
+    <main class="main">
+<section class="profile-section">
+    <div class="section-header">
+        <h2 data-en="My Profile" data-hi="मेरी प्रोफ़ाइल">
+            My Profile
+        </h2>
+        <p data-en="Your registered farming details"
+           data-hi="आपकी पंजीकृत किसान जानकारी">
+            Your registered farming details
+        </p>
+    </div>
+
+    <div class="profile-details">
+        <div class="profile-item">
+            <span>👤</span>
+            <div>
+                <small>Name</small>
+                <strong>{{ farmer_name }}</strong>
+            </div>
+        </div>
+
+        <div class="profile-item">
+            <span>📱</span>
+            <div>
+                <small>Phone</small>
+                <strong>{{ farmer_phone }}</strong>
+            </div>
+        </div>
+
+        <div class="profile-item">
+            <span>📍</span>
+            <div>
+                <small>State</small>
+                <strong>{{ farmer_state }}</strong>
+            </div>
+        </div>
+
+        <div class="profile-item">
+            <span>🏡</span>
+            <div>
+                <small>District</small>
+                <strong>{{ farmer_district }}</strong>
+            </div>
+        </div>
+    </div>
+</section>
+<div style="margin-top: 18px;">
+    <a href="{{ url_for('edit_profile') }}"
+       class="logout-link">
+        ✏️ Edit Profile
+    </a>
+</div>
+        <!-- TOPBAR -->
+        <header class="topbar">
+
+            <div>
+                <span class="muted"
+                      data-en="Pages / Dashboard"
+                      data-hi="पेज / डैशबोर्ड">
+                    Pages / Dashboard
+                </span>
+
+                <h2 data-en="Farmer Dashboard"
+                    data-hi="किसान डैशबोर्ड">
+                    Farmer Dashboard
+                </h2>
+            </div>
+
+            <button id="languageToggle" class="language-toggle">
+                हिन्दी
+            </button>
+
+            <div class="profile">
+    <span>🌱</span>
+
+    <div>
+        <strong
+            data-en="Welcome, {{ farmer_name }}"
+            data-hi="स्वागत है, {{ farmer_name }}">
+            Welcome, {{ farmer_name }}
+        </strong>
+
+        <small
+            data-en="Smart farming starts here"
+            data-hi="स्मार्ट खेती यहाँ से शुरू होती है">
+            Smart farming starts here
+        </small>
+    </div>
+</div>
+
+<form action="{{ url_for('logout') }}" method="POST">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+    <button type="submit"
+            class="logout-link"
+            data-en="Logout"
+            data-hi="लॉग आउट">
+        Logout
+    </button>
+</form>
+
+        </header>
+
+
+        <!-- WELCOME BANNER -->
+        <section class="welcome">
+
+            <div>
+
+                <span class="welcome-tag"
+                      data-en="YOUR INTELLIGENT FARMING PARTNER"
+                      data-hi="आपका स्मार्ट कृषि साथी">
+                    YOUR INTELLIGENT FARMING PARTNER
+                </span>
+
+                <h1 data-en="Grow Smarter. Harvest Better. 🌾"
+                    data-hi="स्मार्ट खेती करें। बेहतर फसल उगाएँ। 🌾">
+                    Grow Smarter. Harvest Better. 🌾
+                </h1>
+
+                <p data-en="AI-powered insights for better millet and pulse cultivation."
+                   data-hi="बाजरा और दलहन की बेहतर खेती के लिए AI आधारित जानकारी।">
+                    AI-powered insights for better millet and pulse cultivation.
+                </p>
+
+                <a href="/advisor" class="primary-btn"
+                   data-en="Explore Crop Advisor →"
+                   data-hi="फसल सलाहकार देखें →">
+                    Explore Crop Advisor →
+                </a>
+
+            </div>
+
+            <div class="welcome-art">🌱</div>
+
+        </section>
+
+
+        <!-- FARMING TOOLS -->
+        <section class="section">
+
+            <div class="section-heading">
+
+                <div>
+                    <h2 data-en="Your Farming Tools"
+                        data-hi="आपके कृषि उपकरण">
+                        Your Farming Tools
+                    </h2>
+
+                    <p data-en="Everything you need to make informed decisions."
+                       data-hi="बेहतर कृषि निर्णय लेने के लिए आवश्यक सुविधाएँ।">
+                        Everything you need to make informed decisions.
+                    </p>
+                </div>
+
+            </div>
+
+
+            <div class="tool-grid">
+
+                <!-- AI CROP ADVISOR -->
+                <article class="tool-card"
+                         role="link"
+                         tabindex="0"
+                         onclick="window.location.href='/advisor'"
+                         onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();window.location.href='/advisor';}">
+
+                    <div class="tool-icon green">🌱</div>
+
+                    <h3 data-en="AI Crop Advisor"
+                        data-hi="AI फसल सलाहकार">
+                        AI Crop Advisor
+                    </h3>
+
+                    <p data-en="Find suitable crops based on soil, climate and water availability."
+                       data-hi="मिट्टी, जलवायु और पानी की उपलब्धता के आधार पर उपयुक्त फसलें जानें।">
+                        Find suitable crops based on soil, climate and water availability.
+                    </p>
+
+                    <span class="tool-action"
+                          data-en="Explore tool →"
+                          data-hi="उपयोग करें →">
+                        Explore tool →
+                    </span>
+
+                </article>
+
+
+                <!-- CROP PLANNER -->
+                <article class="tool-card"
+                         role="link"
+                         tabindex="0"
+                         onclick="window.location.href='{{ url_for('crop_planner') }}'"
+                         onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();window.location.href='{{ url_for('crop_planner') }}';}">
+
+                    <div class="tool-icon blue">📅</div>
+
+                    <h3 data-en="Crop Planner"
+                        data-hi="फसल योजना">
+                        Crop Planner
+                    </h3>
+
+                    <p data-en="Explore sowing schedules and crop-specific cultivation guidance."
+                       data-hi="बुवाई का समय और फसल के अनुसार खेती की जानकारी प्राप्त करें।">
+                        Explore sowing schedules and crop-specific cultivation guidance.
+                    </p>
+
+                    <span class="tool-action"
+                          data-en="Explore tool →"
+                          data-hi="उपयोग करें →">
+                        Explore tool →
+                    </span>
+
+                </article>
+
+
+                <!-- CROP DOCTOR -->
+                <article class="tool-card"
+                         role="link"
+                         tabindex="0"
+                         onclick="window.location.href='{{ url_for('crop_doctor') }}'"
+                         onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();window.location.href='{{ url_for('crop_doctor') }}';}">
+
+                    <div class="tool-icon orange">🔬</div>
+
+                    <h3 data-en="Crop Doctor"
+                        data-hi="फसल रोग पहचान">
+                        Crop Doctor
+                    </h3>
+
+                    <p data-en="Upload crop images to identify possible diseases using AI."
+                       data-hi="AI की मदद से संभावित फसल रोग पहचानने के लिए फोटो अपलोड करें।">
+                        Upload crop images to identify possible diseases using AI.
+                    </p>
+
+                    <span class="tool-action"
+                          data-en="Explore tool →"
+                          data-hi="उपयोग करें →">
+                        Explore tool →
+                    </span>
+
+                </article>
+
+
+                <!-- PROFIT CALCULATOR -->
+                <article class="tool-card"
+                         role="link"
+                         tabindex="0"
+                         onclick="window.location.href='{{ url_for('crop_planner') }}'"
+                         onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();window.location.href='{{ url_for('crop_planner') }}';}">
+
+                    <div class="tool-icon purple">₹</div>
+
+                    <h3 data-en="Profit Calculator"
+                        data-hi="लाभ कैलकुलेटर">
+                        Profit Calculator
+                    </h3>
+
+                    <p data-en="Estimate farming expenses, revenue and potential profit."
+                       data-hi="खेती का खर्च, आमदनी और संभावित लाभ जानें।">
+                        Estimate farming expenses, revenue and potential profit.
+                    </p>
+
+                    <span class="tool-action"
+                          data-en="Explore tool →"
+                          data-hi="उपयोग करें →">
+                        Explore tool →
+                    </span>
+
+                </article>
+
+
+                <!-- WEATHER INSIGHTS -->
+                <article class="tool-card"
+                         role="link"
+                         tabindex="0"
+                         onclick="window.location.href='{{ url_for('weather_page') }}'"
+                         onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();window.location.href='{{ url_for('weather_page') }}';}">
+
+                    <div class="tool-icon yellow">☀️</div>
+
+                    <h3 data-en="Weather Insights"
+                        data-hi="मौसम की जानकारी">
+                        Weather Insights
+                    </h3>
+
+                    <p data-en="Get weather information and useful farming alerts."
+                       data-hi="मौसम की जानकारी और खेती से जुड़े उपयोगी अलर्ट प्राप्त करें।">
+                        Get weather information and useful farming alerts.
+                    </p>
+
+                    <span class="tool-action"
+                          data-en="Explore tool →"
+                          data-hi="उपयोग करें →">
+                        Explore tool →
+                    </span>
+
+                </article>
+
+
+                <!-- FARM ANALYTICS -->
+                <article class="tool-card"
+                         role="link"
+                         tabindex="0"
+                         onclick="window.location.href='{{ url_for('farm_analytics') }}'"
+                         onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();window.location.href='{{ url_for('farm_analytics') }}';}">
+
+                    <div class="tool-icon teal">📊</div>
+
+                    <h3 data-en="Farm Analytics"
+                        data-hi="कृषि विश्लेषण">
+                        Farm Analytics
+                    </h3>
+
+                    <p data-en="Review saved farm details and previous recommendations."
+                       data-hi="अपने खेत की जानकारी और पुराने सुझाव देखें।">
+                        Review saved farm details and previous recommendations.
+                    </p>
+
+                    <span class="tool-action"
+                          data-en="Explore tool →"
+                          data-hi="उपयोग करें →">
+                        Explore tool →
+                    </span>
+
+                </article>
+
+            </div>
+
+        </section>
+
+
+        <!-- BOTTOM BANNER -->
+        <section class="bottom-banner">
+
+            <div>
+
+                <h2 data-en="Technology for a better harvest."
+                    data-hi="बेहतर फसल के लिए तकनीक।">
+                    Technology for a better harvest.
+                </h2>
+
+                <p data-en="Empowering millet and pulse farmers through intelligent agriculture."
+                   data-hi="स्मार्ट कृषि के माध्यम से बाजरा और दलहन किसानों को सशक्त बनाना।">
+                    Empowering millet and pulse farmers through intelligent agriculture.
+                </p>
+
+            </div>
+
+            <span>🌾</span>
+
+        </section>
+
+
+        <!-- FOOTER -->
+        <footer data-en="© 2026 KrishiMitra AI. Smarter Farming, Better Future."
+                data-hi="© 2026 KrishiMitra AI. स्मार्ट खेती, बेहतर भविष्य।">
+            © 2026 KrishiMitra AI. Smarter Farming, Better Future.
+        </footer>
+
+    </main>
+
+</div>
+
+
+<script src="{{ url_for('static', filename='js/script.js') }}"></script>
+
+</body>
+</html>

@@ -1,0 +1,745 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Weather Insights | KrishiMitra AI</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            background: #f4f8f4;
+            font-family: Arial, sans-serif;
+            color: #263b2d;
+        }
+
+        .weather-container {
+            max-width: 1150px;
+            margin: 35px auto;
+            padding: 20px;
+        }
+
+        .weather-header h1 {
+            color: #176b3a;
+            margin-bottom: 8px;
+        }
+
+        .weather-header p {
+            color: #718075;
+            line-height: 1.6;
+        }
+
+        .search-card,
+        .weather-card,
+        .forecast-card,
+        .alert-card {
+            background: white;
+            padding: 24px;
+            border-radius: 15px;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.05);
+            margin-top: 22px;
+        }
+
+        .search-form {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .search-form input {
+            flex: 1;
+            min-width: 200px;
+            padding: 13px;
+            border: 1px solid #d6e4d9;
+            border-radius: 8px;
+            font-size: 15px;
+        }
+
+        .search-form button {
+            background: #187a43;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 13px 24px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .search-form button:hover {
+            background: #105d31;
+        }
+
+        .section-title {
+            color: #176b3a;
+            margin-top: 30px;
+        }
+
+        .weather-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            margin-top: 20px;
+        }
+
+        .weather-metric {
+            background: #f0f8f1;
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid #e1eee3;
+        }
+
+        .weather-metric span {
+            color: #718075;
+            font-size: 14px;
+        }
+
+        .weather-metric h2 {
+            color: #176b3a;
+            margin: 12px 0 0;
+            font-size: 25px;
+        }
+
+        .current-weather {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .temperature {
+            font-size: 55px;
+            font-weight: bold;
+            color: #176b3a;
+        }
+
+        .weather-location {
+            color: #718075;
+        }
+
+        .forecast-grid {
+            display: grid;
+            grid-template-columns: repeat(7, minmax(100px, 1fr));
+            gap: 12px;
+            margin-top: 20px;
+            overflow-x: auto;
+        }
+
+        .forecast-day {
+            background: #f0f8f1;
+            padding: 16px 10px;
+            border-radius: 12px;
+            text-align: center;
+            min-width: 100px;
+        }
+
+        .forecast-day h4 {
+            color: #176b3a;
+            margin: 5px 0 12px;
+        }
+
+        .forecast-icon {
+            font-size: 27px;
+        }
+
+        .forecast-day p {
+            font-size: 13px;
+            margin: 7px 0;
+        }
+
+        .alert-list {
+            display: grid;
+            gap: 12px;
+            margin-top: 18px;
+        }
+
+        .weather-alert {
+            padding: 16px;
+            border-radius: 9px;
+            background: #f0f8f1;
+            border-left: 4px solid #269653;
+        }
+
+        .weather-alert.warning {
+            background: #fff8e8;
+            border-left-color: #e5a000;
+        }
+
+        .weather-alert strong {
+            display: block;
+            margin-bottom: 6px;
+        }
+
+        .weather-alert p {
+            margin: 0;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .weather-error {
+            background: #fff0f0;
+            color: #a52a2a;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+        }
+
+        .weather-loading {
+            color: #176b3a;
+            margin-top: 15px;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 25px;
+            color: #176b3a;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        @media(max-width: 850px) {
+            .weather-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .forecast-grid {
+                grid-template-columns: repeat(7, 110px);
+            }
+        }
+
+        @media(max-width: 500px) {
+            .weather-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .temperature {
+                font-size: 42px;
+            }
+        }
+    </style>
+
+</head>
+
+<body>
+
+<div class="weather-container">
+
+    <!-- HEADER -->
+
+    <header class="weather-header">
+
+        <h1>🌦️ Weather Insights</h1>
+
+        <p>
+            Monitor local weather conditions and make
+            informed farming decisions with KrishiMitra AI.
+        </p>
+
+    </header>
+
+
+    <!-- LOCATION SEARCH -->
+
+    <section class="search-card">
+
+        <h3>📍 Search Your Farming Location</h3>
+
+        <form class="search-form" id="weatherForm">
+
+            <input
+                type="text"
+                id="cityInput"
+                placeholder="Enter city or district (e.g. Jaipur)"
+                value="Jaipur"
+                required
+            >
+
+            <button type="submit">
+                Get Weather
+            </button>
+
+        </form>
+
+        <p id="loadingMessage" class="weather-loading" hidden>
+            Fetching latest weather information...
+        </p>
+
+        <div id="errorMessage" class="weather-error" hidden></div>
+
+    </section>
+
+
+    <!-- CURRENT WEATHER -->
+
+    <h2 class="section-title">🌤️ Current Weather</h2>
+
+    <section class="weather-card" id="currentWeather" hidden>
+
+        <div class="current-weather">
+
+            <div>
+
+                <h2 id="locationName">Jaipur</h2>
+
+                <p class="weather-location" id="locationDetails">
+                    Rajasthan, India
+                </p>
+
+                <div class="temperature" id="temperature">
+                    --°C
+                </div>
+
+                <p id="weatherDescription">
+                    Loading weather...
+                </p>
+
+            </div>
+
+            <div style="font-size:75px;" id="weatherIcon">
+                🌤️
+            </div>
+
+        </div>
+
+
+        <!-- WEATHER METRICS -->
+
+        <div class="weather-grid">
+
+            <div class="weather-metric">
+
+                <span>🌡️ Feels Like</span>
+
+                <h2 id="feelsLike">--°C</h2>
+
+            </div>
+
+
+            <div class="weather-metric">
+
+                <span>💧 Humidity</span>
+
+                <h2 id="humidity">--%</h2>
+
+            </div>
+
+
+            <div class="weather-metric">
+
+                <span>💨 Wind Speed</span>
+
+                <h2 id="windSpeed">-- km/h</h2>
+
+            </div>
+
+
+            <div class="weather-metric">
+
+                <span>🌧️ Rainfall</span>
+
+                <h2 id="rainfall">-- mm</h2>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- SEVEN DAY FORECAST -->
+
+    <h2 class="section-title">📅 7-Day Weather Forecast</h2>
+
+    <section class="forecast-card">
+
+        <div class="forecast-grid" id="forecastGrid">
+
+            <p>Search a location to see its forecast.</p>
+
+        </div>
+
+    </section>
+
+
+    <!-- FARMING ALERTS -->
+
+    <h2 class="section-title">🌱 Smart Farming Alerts</h2>
+
+    <section class="alert-card">
+
+        <div class="alert-list" id="farmingAlerts">
+
+            <p>Weather-based farming alerts will appear here.</p>
+
+        </div>
+
+        <p style="font-size:12px;color:#718075;margin-top:18px;">
+            These are general weather-based suggestions, not
+            crop-specific agronomic prescriptions.
+        </p>
+
+    </section>
+
+
+    <!-- FOOTER -->
+
+    <a href="{{ url_for('home') }}" class="back-link">
+        ← Back to Dashboard
+    </a>
+
+</div>
+
+
+<!-- WEATHER JAVASCRIPT -->
+
+<script>
+
+const weatherForm = document.getElementById("weatherForm");
+
+const cityInput = document.getElementById("cityInput");
+
+const loadingMessage = document.getElementById("loadingMessage");
+
+const errorMessage = document.getElementById("errorMessage");
+
+
+function getWeatherIcon(code) {
+
+    if (code === 0) return "☀️";
+
+    if ([1, 2, 3].includes(code)) return "🌤️";
+
+    if ([45, 48].includes(code)) return "🌫️";
+
+    if ([51, 53, 55, 56, 57].includes(code)) return "🌦️";
+
+    if ([61, 63, 65, 66, 67, 80, 81, 82].includes(code)) return "🌧️";
+
+    if ([71, 73, 75, 77, 85, 86].includes(code)) return "❄️";
+
+    if ([95, 96, 99].includes(code)) return "⛈️";
+
+    return "🌤️";
+
+}
+
+
+function getWeatherDescription(code) {
+
+    const descriptions = {
+
+        0: "Clear Sky",
+        1: "Mainly Clear",
+        2: "Partly Cloudy",
+        3: "Overcast",
+        45: "Fog",
+        48: "Depositing Rime Fog",
+        51: "Light Drizzle",
+        53: "Moderate Drizzle",
+        55: "Dense Drizzle",
+        61: "Slight Rain",
+        63: "Moderate Rain",
+        65: "Heavy Rain",
+        71: "Slight Snow",
+        73: "Moderate Snow",
+        75: "Heavy Snow",
+        80: "Rain Showers",
+        81: "Moderate Rain Showers",
+        82: "Violent Rain Showers",
+        95: "Thunderstorm",
+        96: "Thunderstorm with Hail",
+        99: "Severe Thunderstorm"
+
+    };
+
+    return descriptions[code] || "Weather conditions unavailable";
+
+}
+
+
+function formatDay(dateString, index) {
+
+    if (index === 0) return "Today";
+
+    if (index === 1) return "Tomorrow";
+
+    return new Date(dateString + "T12:00:00")
+        .toLocaleDateString("en-IN", { weekday: "short" });
+
+}
+
+
+function generateFarmingAlerts(current, daily) {
+
+    const alerts = [];
+
+    const rainChance = daily.precipitation_probability_max[0] || 0;
+
+    const maxTemp = daily.temperature_2m_max[0];
+
+    const rainfall = daily.precipitation_sum[0] || 0;
+
+    if (rainChance >= 60) {
+
+        alerts.push({
+            warning: true,
+            title: "🌧️ High Rain Probability",
+            message: "Rain probability is " + rainChance +
+                "%. Consider postponing pesticide spraying and protect harvested produce."
+        });
+
+    } else {
+
+        alerts.push({
+            warning: false,
+            title: "🌤️ Rainfall Outlook",
+            message: "Rain probability is " + rainChance +
+                "%. Check soil moisture before planning irrigation."
+        });
+
+    }
+
+
+    if (maxTemp >= 35) {
+
+        alerts.push({
+            warning: true,
+            title: "🔥 High Temperature Alert",
+            message: "Maximum temperature may reach " +
+                maxTemp + "°C. Monitor crops for heat stress and check soil moisture."
+        });
+
+    } else {
+
+        alerts.push({
+            warning: false,
+            title: "🌡️ Temperature Conditions",
+            message: "Today's maximum temperature is expected to be " +
+                maxTemp + "°C."
+        });
+
+    }
+
+
+    if (rainfall >= 10) {
+
+        alerts.push({
+            warning: true,
+            title: "💧 Rainfall Advisory",
+            message: rainfall +
+                " mm of rain is forecast today. Check field drainage and avoid unnecessary irrigation."
+        });
+
+    } else {
+
+        alerts.push({
+            warning: false,
+            title: "🚜 Irrigation Reminder",
+            message: "Forecast rainfall is " + rainfall +
+                " mm. Base irrigation decisions on actual soil moisture and crop requirements."
+        });
+
+    }
+
+
+    const alertContainer = document.getElementById("farmingAlerts");
+
+    alertContainer.innerHTML = "";
+
+    alerts.forEach(alert => {
+
+        const item = document.createElement("div");
+
+        item.className = alert.warning
+            ? "weather-alert warning"
+            : "weather-alert";
+
+        const heading = document.createElement("strong");
+
+        heading.textContent = alert.title;
+
+        const paragraph = document.createElement("p");
+
+        paragraph.textContent = alert.message;
+
+        item.appendChild(heading);
+
+        item.appendChild(paragraph);
+
+        alertContainer.appendChild(item);
+
+    });
+
+}
+
+
+function displayWeather(data) {
+
+    const current = data.current;
+
+    const daily = data.daily;
+
+    const location = data.location;
+
+    document.getElementById("currentWeather").hidden = false;
+
+    document.getElementById("locationName").textContent =
+        location.name;
+
+    document.getElementById("locationDetails").textContent =
+        [location.admin1, location.country].filter(Boolean).join(", ");
+
+    document.getElementById("temperature").textContent =
+        current.temperature_2m + "°C";
+
+    document.getElementById("feelsLike").textContent =
+        current.apparent_temperature + "°C";
+
+    document.getElementById("humidity").textContent =
+        current.relative_humidity_2m + "%";
+
+    document.getElementById("windSpeed").textContent =
+        current.wind_speed_10m + " km/h";
+
+    document.getElementById("rainfall").textContent =
+        current.precipitation + " mm";
+
+    document.getElementById("weatherDescription").textContent =
+        getWeatherDescription(current.weather_code);
+
+    document.getElementById("weatherIcon").textContent =
+        getWeatherIcon(current.weather_code);
+
+
+    // SEVEN DAY FORECAST
+
+    const forecastGrid = document.getElementById("forecastGrid");
+
+    forecastGrid.innerHTML = "";
+
+    daily.time.forEach((date, index) => {
+
+        const day = document.createElement("div");
+
+        day.className = "forecast-day";
+
+        const heading = document.createElement("h4");
+
+        heading.textContent = formatDay(date, index);
+
+        const icon = document.createElement("div");
+
+        icon.className = "forecast-icon";
+
+        icon.textContent = getWeatherIcon(daily.weather_code[index]);
+
+        const description = document.createElement("p");
+
+        description.textContent =
+            getWeatherDescription(daily.weather_code[index]);
+
+        const temperature = document.createElement("p");
+
+        temperature.textContent =
+            "🌡️ " + daily.temperature_2m_max[index] +
+            "° / " + daily.temperature_2m_min[index] + "°";
+
+        const rain = document.createElement("p");
+
+        rain.textContent =
+            "🌧️ " + daily.precipitation_probability_max[index] + "%";
+
+        day.appendChild(heading);
+
+        day.appendChild(icon);
+
+        day.appendChild(description);
+
+        day.appendChild(temperature);
+
+        day.appendChild(rain);
+
+        forecastGrid.appendChild(day);
+
+    });
+
+
+    // FARMING ALERTS
+
+    generateFarmingAlerts(current, daily);
+
+}
+
+
+async function fetchWeather(city) {
+
+    loadingMessage.hidden = false;
+
+    errorMessage.hidden = true;
+
+    document.getElementById("currentWeather").hidden = true;
+
+    try {
+
+        const response = await fetch(
+            "/api/weather?city=" + encodeURIComponent(city)
+        );
+
+        const data = await response.json();
+
+        if (!response.ok || !data.success) {
+
+            throw new Error(
+                data.message || "Unable to fetch weather information."
+            );
+
+        }
+
+        displayWeather(data);
+
+    } catch (error) {
+
+        errorMessage.textContent = error.message;
+
+        errorMessage.hidden = false;
+
+    } finally {
+
+        loadingMessage.hidden = true;
+
+    }
+
+}
+
+
+weatherForm.addEventListener("submit", function(event) {
+
+    event.preventDefault();
+
+    const city = cityInput.value.trim();
+
+    if (city) {
+
+        fetchWeather(city);
+
+    }
+
+});
+
+
+fetchWeather("Jaipur");
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,93 @@
+{
+    "test_images": 152,
+    "test_accuracy": 81.58,
+    "class_names": [
+        "Anthracnose 230",
+        "Healthy 220",
+        "Leaf Crinckle 150",
+        "Powdery Mildew 180",
+        "Yellow Mosaic 220"
+    ],
+    "confusion_matrix": [
+        [
+            35,
+            0,
+            0,
+            0,
+            0
+        ],
+        [
+            1,
+            28,
+            0,
+            5,
+            0
+        ],
+        [
+            2,
+            5,
+            13,
+            2,
+            1
+        ],
+        [
+            4,
+            2,
+            0,
+            21,
+            0
+        ],
+        [
+            3,
+            0,
+            1,
+            2,
+            27
+        ]
+    ],
+    "classification_report": {
+        "Anthracnose 230": {
+            "precision": 0.7777777777777778,
+            "recall": 1.0,
+            "f1-score": 0.875,
+            "support": 35.0
+        },
+        "Healthy 220": {
+            "precision": 0.8,
+            "recall": 0.8235294117647058,
+            "f1-score": 0.8115942028985508,
+            "support": 34.0
+        },
+        "Leaf Crinckle 150": {
+            "precision": 0.9285714285714286,
+            "recall": 0.5652173913043478,
+            "f1-score": 0.7027027027027027,
+            "support": 23.0
+        },
+        "Powdery Mildew 180": {
+            "precision": 0.7,
+            "recall": 0.7777777777777778,
+            "f1-score": 0.7368421052631579,
+            "support": 27.0
+        },
+        "Yellow Mosaic 220": {
+            "precision": 0.9642857142857143,
+            "recall": 0.8181818181818182,
+            "f1-score": 0.8852459016393442,
+            "support": 33.0
+        },
+        "accuracy": 0.8157894736842105,
+        "macro avg": {
+            "precision": 0.8341269841269842,
+            "recall": 0.7969412798057299,
+            "f1-score": 0.8022769825007512,
+            "support": 152.0
+        },
+        "weighted avg": {
+            "precision": 0.8322420634920635,
+            "recall": 0.8157894736842105,
+            "f1-score": 0.812429056953398,
+            "support": 152.0
+        }
+    }
+}

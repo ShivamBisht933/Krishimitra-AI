@@ -1,0 +1,121 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Farmer Login | KrishiMitra AI</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+    <style>
+        .login-container {
+            max-width: 420px;
+            margin: 80px auto;
+            padding: 35px;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.08);
+        }
+
+        .login-container h2 {
+            color: #16834a;
+            margin-bottom: 10px;
+        }
+
+        .login-container p {
+            color: #777;
+            margin-bottom: 25px;
+        }
+
+        .login-container input {
+            width: 100%;
+            padding: 13px;
+            margin: 8px 0 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-sizing: border-box;
+            font-family: inherit;
+        }
+
+        .login-container label {
+            font-weight: 600;
+        }
+
+        .login-container button {
+            width: 100%;
+            padding: 13px;
+            background: #16834a;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .login-container button:hover {
+            background: #106b3b;
+        }
+
+        .message {
+            color: #d33;
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="login-container">
+
+    <h2>🌾 Welcome Back!</h2>
+
+    <p>Login to your KrishiMitra AI farmer account.</p>
+
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+                <div class="message">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <form method="POST" action="{{ url_for('login') }}">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+        <label>Phone Number</label>
+
+        <input
+            type="tel"
+            name="phone"
+            placeholder="Enter your 10-digit phone number"
+            pattern="[0-9]{10}"
+            maxlength="10"
+            required
+        >
+
+        <label>Password</label>
+
+        <input
+            type="password"
+            name="password"
+            placeholder="Enter your password"
+            required
+        >
+
+        <button type="submit">Login</button>
+
+    </form>
+
+    <p style="text-align:center; margin-top:20px;">
+        New farmer?
+        <a href="{{ url_for('register') }}">Create an account</a>
+    </p>
+
+</div>
+
+</body>
+</html>

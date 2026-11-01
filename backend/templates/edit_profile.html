@@ -1,0 +1,126 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Profile | KrishiMitra AI</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+    <style>
+        .edit-container {
+            max-width: 650px;
+            margin: 50px auto;
+            padding: 30px;
+            background: white;
+            border-radius: 16px;
+            border: 1px solid #e5eee8;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+
+        .edit-container h1 {
+            color: #176b3a;
+            margin-bottom: 8px;
+        }
+
+        .edit-container p {
+            color: #777;
+            margin-bottom: 25px;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 7px;
+            font-weight: 600;
+            color: #344b3b;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #dce8df;
+            border-radius: 8px;
+            box-sizing: border-box;
+            font-size: 15px;
+        }
+
+        .save-button {
+            width: 100%;
+            padding: 13px;
+            background: #176b3a;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .save-button:hover {
+            background: #10552d;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 18px;
+            color: #176b3a;
+            text-decoration: none;
+            font-weight: 600;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="edit-container">
+
+    <h1>👨‍🌾 Edit My Profile</h1>
+    <p>Update your registered farming details.</p>
+
+    <form method="POST" action="{{ url_for('edit_profile') }}">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+        <div class="form-group">
+            <label>Farmer Name</label>
+            <input type="text" name="farmer_name"
+                   value="{{ farmer.farmer_name }}" required>
+        </div>
+
+        <div class="form-group">
+            <label>Phone Number</label>
+            <input type="tel" name="phone"
+                   value="{{ farmer.phone }}" maxlength="10"
+                   pattern="[0-9]{10}" required>
+        </div>
+
+        <div class="form-group">
+            <label>State</label>
+            <input type="text" name="state"
+                   value="{{ farmer.state }}" required>
+        </div>
+
+        <div class="form-group">
+            <label>District</label>
+            <input type="text" name="district"
+                   value="{{ farmer.district }}" required>
+        </div>
+
+        <button type="submit" class="save-button">
+            Save Changes
+        </button>
+
+    </form>
+
+    <a href="{{ url_for('home') }}" class="back-link">
+        ← Back to Dashboard
+    </a>
+
+</div>
+
+</body>
+</html>

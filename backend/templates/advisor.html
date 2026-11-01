@@ -1,0 +1,447 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Crop Advisor | KrishiMitra AI</title>
+
+    <link rel="stylesheet"
+    href="{{ url_for('static', filename='css/style.css') }}">
+
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet">
+</head>
+
+<body>
+
+<div class="advisor-page">
+
+    <header class="advisor-header">
+
+        <a href="/" class="advisor-brand">
+            🌾 KrishiMitra <span>AI</span>
+        </a>
+
+        <button id="languageToggle" class="language-toggle">
+            हिन्दी
+        </button>
+
+    </header>
+
+
+    <main class="advisor-container">
+
+        <a href="/" class="back-link"
+           data-en="← Back to Dashboard"
+           data-hi="← डैशबोर्ड पर वापस जाएँ">
+            ← Back to Dashboard
+        </a>
+
+
+        <section class="advisor-intro">
+
+            <span class="eyebrow"
+                  data-en="INTELLIGENT AGRICULTURE"
+                  data-hi="स्मार्ट कृषि">
+                INTELLIGENT AGRICULTURE
+            </span>
+
+            <h1 data-en="AI Crop Advisor 🌱"
+                data-hi="AI फसल सलाहकार 🌱">
+                AI Crop Advisor 🌱
+            </h1>
+
+            <p data-en="Tell us about your farm. We'll help identify suitable crop options."
+               data-hi="अपने खेत की जानकारी दें। हम उपयुक्त फसलों की पहचान करने में मदद करेंगे।">
+                Tell us about your farm. We'll help identify suitable crop options.
+            </p>
+
+        </section>
+
+
+        <section class="advisor-form-card">
+
+            <div class="form-heading">
+                <h2 data-en="Farm Information"
+                    data-hi="खेत की जानकारी">
+                    Farm Information
+                </h2>
+
+                <p data-en="Enter your agricultural details below."
+                   data-hi="नीचे अपनी कृषि संबंधी जानकारी भरें।">
+                    Enter your agricultural details below.
+                </p>
+            </div>
+
+
+            <form method="POST" action="/advisor">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+                <h3 data-en="01. Location Details"
+                    data-hi="01. स्थान की जानकारी">
+                    01. Location Details
+                </h3>
+
+                <div class="form-grid">
+
+                    <div class="form-group">
+                        <label data-en="State" data-hi="राज्य">State</label>
+
+                        <select name="state" id="state" required>
+    <option value="" data-en="Select State" data-hi="राज्य चुनें">Select State</option>
+    <option value="Andhra Pradesh" data-en="Andhra Pradesh" data-hi="आंध्र प्रदेश">Andhra Pradesh</option>
+    <option value="Arunachal Pradesh" data-en="Arunachal Pradesh" data-hi="अरुणाचल प्रदेश">Arunachal Pradesh</option>
+    <option value="Assam" data-en="Assam" data-hi="असम">Assam</option>
+    <option value="Bihar" data-en="Bihar" data-hi="बिहार">Bihar</option>
+    <option value="Chhattisgarh" data-en="Chhattisgarh" data-hi="छत्तीसगढ़">Chhattisgarh</option>
+    <option value="Goa" data-en="Goa" data-hi="गोवा">Goa</option>
+    <option value="Gujarat" data-en="Gujarat" data-hi="गुजरात">Gujarat</option>
+    <option value="Haryana" data-en="Haryana" data-hi="हरियाणा">Haryana</option>
+    <option value="Himachal Pradesh" data-en="Himachal Pradesh" data-hi="हिमाचल प्रदेश">Himachal Pradesh</option>
+    <option value="Jharkhand" data-en="Jharkhand" data-hi="झारखंड">Jharkhand</option>
+    <option value="Karnataka" data-en="Karnataka" data-hi="कर्नाटक">Karnataka</option>
+    <option value="Kerala" data-en="Kerala" data-hi="केरल">Kerala</option>
+    <option value="Madhya Pradesh" data-en="Madhya Pradesh" data-hi="मध्य प्रदेश">Madhya Pradesh</option>
+    <option value="Maharashtra" data-en="Maharashtra" data-hi="महाराष्ट्र">Maharashtra</option>
+    <option value="Manipur" data-en="Manipur" data-hi="मणिपुर">Manipur</option>
+    <option value="Meghalaya" data-en="Meghalaya" data-hi="मेघालय">Meghalaya</option>
+    <option value="Mizoram" data-en="Mizoram" data-hi="मिजोरम">Mizoram</option>
+    <option value="Nagaland" data-en="Nagaland" data-hi="नागालैंड">Nagaland</option>
+    <option value="Odisha" data-en="Odisha" data-hi="ओडिशा">Odisha</option>
+    <option value="Punjab" data-en="Punjab" data-hi="पंजाब">Punjab</option>
+    <option value="Rajasthan" data-en="Rajasthan" data-hi="राजस्थान">Rajasthan</option>
+    <option value="Sikkim" data-en="Sikkim" data-hi="सिक्किम">Sikkim</option>
+    <option value="Tamil Nadu" data-en="Tamil Nadu" data-hi="तमिलनाडु">Tamil Nadu</option>
+    <option value="Telangana" data-en="Telangana" data-hi="तेलंगाना">Telangana</option>
+    <option value="Tripura" data-en="Tripura" data-hi="त्रिपुरा">Tripura</option>
+    <option value="Uttar Pradesh" data-en="Uttar Pradesh" data-hi="उत्तर प्रदेश">Uttar Pradesh</option>
+    <option value="Uttarakhand" data-en="Uttarakhand" data-hi="उत्तराखंड">Uttarakhand</option>
+    <option value="West Bengal" data-en="West Bengal" data-hi="पश्चिम बंगाल">West Bengal</option>
+    <option value="Andaman and Nicobar Islands" data-en="Andaman and Nicobar Islands" data-hi="अंडमान और निकोबार द्वीपसमूह">Andaman and Nicobar Islands</option>
+    <option value="Chandigarh" data-en="Chandigarh" data-hi="चंडीगढ़">Chandigarh</option>
+    <option value="Dadra and Nagar Haveli and Daman and Diu" data-en="Dadra and Nagar Haveli and Daman and Diu" data-hi="दादरा और नगर हवेली और दमन और दीव">Dadra and Nagar Haveli and Daman and Diu</option>
+    <option value="Delhi" data-en="Delhi" data-hi="दिल्ली">Delhi</option>
+    <option value="Jammu and Kashmir" data-en="Jammu and Kashmir" data-hi="जम्मू और कश्मीर">Jammu and Kashmir</option>
+    <option value="Ladakh" data-en="Ladakh" data-hi="लद्दाख">Ladakh</option>
+    <option value="Lakshadweep" data-en="Lakshadweep" data-hi="लक्षद्वीप">Lakshadweep</option>
+    <option value="Puducherry" data-en="Puducherry" data-hi="पुडुचेरी">Puducherry</option>
+</select>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label data-en="District" data-hi="जिला">District</label>
+
+                        <select name="district" id="district" required disabled>
+    <option value=""
+        data-en="Select your state first"
+        data-hi="पहले अपना राज्य चुनें">
+        Select your state first
+    </option>
+</select>
+                    </div>
+
+                </div>
+
+
+                <div class="form-divider"></div>
+
+
+                <h3 data-en="02. Soil Information"
+                    data-hi="02. मिट्टी की जानकारी">
+                    02. Soil Information
+                </h3>
+
+                <div class="form-grid">
+
+                    <div class="form-group">
+                        <label data-en="Soil Type" data-hi="मिट्टी का प्रकार">Soil Type</label>
+
+                        <select name="soil_type" required>
+                            <option value="" data-en="Select soil type" data-hi="मिट्टी चुनें">Select soil type</option>
+                            <option value="Sandy">Sandy / रेतीली</option>
+                            <option value="Clay">Clay / चिकनी</option>
+                            <option value="Loamy">Loamy / दोमट</option>
+                            <option value="Sandy Loam">Sandy Loam / बलुई दोमट</option>
+                            <option value="Black Soil">Black Soil / काली मिट्टी</option>
+                            <option value="Red Soil">Red Soil / लाल मिट्टी</option>
+                            <option value="Other">Other / अन्य</option>
+                        </select>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label data-en="Soil pH (optional)" data-hi="मिट्टी का pH (वैकल्पिक)">Soil pH (optional)</label>
+
+                        <input type="number" name="ph"
+                               placeholder="e.g. 7.2"
+                               min="0" max="14" step="0.1">
+                    </div>
+
+                </div>
+
+
+
+<p class="field-note"
+   data-en="NPK values are optional. Enter them only if you have a soil test report. Unit: kg/ha."
+   data-hi="NPK मान वैकल्पिक हैं। इन्हें केवल मिट्टी की जाँच रिपोर्ट होने पर भरें। इकाई: kg/ha.">
+    NPK values are optional. Enter them only if you have a soil test report. Unit: kg/ha.
+</p>
+
+<div class="form-grid three-columns">
+
+    <div class="form-group">
+        <label>Nitrogen (N) – kg/ha</label>
+        <input type="number" name="nitrogen"
+               placeholder="N value" min="0" step="0.1">
+    </div>
+
+    <div class="form-group">
+        <label>Phosphorus (P) – kg/ha</label>
+        <input type="number" name="phosphorus"
+               placeholder="P value" min="0" step="0.1">
+    </div>
+
+    <div class="form-group">
+        <label>Potassium (K) – kg/ha</label>
+        <input type="number" name="potassium"
+               placeholder="K value" min="0" step="0.1">
+    </div>
+
+
+
+                </div>
+
+
+                <div class="form-divider"></div>
+
+
+                <h3 data-en="03. Farming Conditions"
+                    data-hi="03. खेती की परिस्थितियाँ">
+                    03. Farming Conditions
+                </h3>
+
+                <div class="form-grid">
+
+                    <div class="form-group">
+                        <label data-en="Water Availability"
+                               data-hi="पानी की उपलब्धता">
+                            Water Availability
+                        </label>
+
+                        <select name="water" required>
+                            <option value="" data-en="Select availability" data-hi="उपलब्धता चुनें">Select availability</option>
+                            <option value="Low">Low / कम</option>
+                            <option value="Medium">Medium / मध्यम</option>
+                            <option value="High">High / अधिक</option>
+                        </select>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label data-en="Growing Season"
+                               data-hi="फसल का मौसम">
+                            Growing Season
+                        </label>
+
+                        <select name="season" required>
+                            <option value="" data-en="Select season" data-hi="मौसम चुनें">Select season</option>
+                            <option value="Kharif">Kharif / खरीफ</option>
+                            <option value="Rabi">Rabi / रबी</option>
+                            <option value="Zaid">Zaid / जायद</option>
+                        </select>
+                    </div>
+
+                </div>
+
+
+                <button type="submit" class="recommend-btn"
+                        data-en="Analyse My Farm →"
+                        data-hi="मेरे खेत का विश्लेषण करें →">
+                    Analyse My Farm →
+                </button>
+
+            </form>
+
+        </section>
+
+
+{% if submitted %}
+
+<section class="submission-result">
+
+    {% if recommendation_result and recommendation_result.success %}
+
+    <div class="form-heading">
+        <span class="eyebrow">KRISHIMITRA AI ANALYSIS</span>
+
+        <h2 data-en="Your Crop Recommendations 🌱"
+            data-hi="आपके लिए फसल सुझाव 🌱">
+            Your Crop Recommendations 🌱
+        </h2>
+
+        <p data-en="Based on historical crop performance in your selected district and season."
+           data-hi="आपके चुने हुए जिले और मौसम के ऐतिहासिक फसल प्रदर्शन के आधार पर।">
+            Based on historical crop performance in your selected district and season.
+        </p>
+    </div>
+
+    <div class="submitted-data">
+        <p><strong>State / राज्य:</strong> {{ farm_data.state }}</p>
+        <p><strong>District / जिला:</strong> {{ farm_data.district }}</p>
+        <p><strong>Season / मौसम:</strong> {{ farm_data.season }}</p>
+        <p><strong>Soil / मिट्टी:</strong> {{ farm_data.soil_type }}</p>
+        <p><strong>Water / पानी:</strong> {{ farm_data.water }}</p>
+    </div>
+
+    <h3 data-en="Top Suitable Historical Crop Options"
+        data-hi="ऐतिहासिक रूप से उपयुक्त प्रमुख फसलें">
+        Top Suitable Historical Crop Options
+    </h3>
+
+    <div class="recommendation-list">
+
+        {% for crop in recommendation_result.recommendations %}
+
+
+<div class="recommendation-card">
+
+    <span class="eyebrow">OPTION {{ loop.index }}</span>
+
+    <h3>{{ crop.crop }}</h3>
+
+    <div class="score-section">
+        <div class="score-heading">
+            <strong>Suitability Score</strong>
+            <strong>{{ crop.score }}/100</strong>
+        </div>
+
+        <div class="score-bar">
+            <div class="score-fill"
+                 style="width: {{ crop.score }}%;">
+            </div>
+        </div>
+
+<div class="score-breakdown">
+
+    <h4>📊 Suitability Score Breakdown</h4>
+
+    <div class="breakdown-row">
+        <span>Season Suitability</span>
+        <strong>{{ crop.score_breakdown.season }}/30</strong>
+    </div>
+
+    <div class="breakdown-row">
+        <span>Soil Suitability</span>
+        <strong>{{ crop.score_breakdown.soil }}/15</strong>
+    </div>
+
+    <div class="breakdown-row">
+        <span>Water Availability</span>
+        <strong>{{ crop.score_breakdown.water }}/15</strong>
+    </div>
+
+    <div class="breakdown-row">
+        <span>Soil pH</span>
+        <strong>{{ crop.score_breakdown.ph }}/20</strong>
+    </div>
+
+    <div class="breakdown-row">
+        <span>Historical Performance</span>
+        <strong>{{ crop.score_breakdown.historical }}/20</strong>
+    </div>
+
+</div>
+
+    </div>
+
+    <p>
+        <strong>Historical yield:</strong>
+        {{ crop.yield }} tonnes/hectare
+    </p>
+
+<div class="historical-explanation">
+    <strong>📈 Historical Performance Insight</strong>
+    <p>{{ crop.historical_explanation }}</p>
+</div>
+
+    <p>
+        <strong>Records analysed:</strong>
+        {{ crop.records }}
+    </p>
+
+    <p>
+        <strong>Years represented:</strong>
+        {{ crop.years }}
+    </p>
+
+    {% if crop.reasons %}
+    <div class="crop-reasons">
+        <strong>Why recommended?</strong>
+
+        <ul>
+            {% for reason in crop.reasons %}
+            <li>{{ reason }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+
+    {% if crop.warnings %}
+    <div class="crop-warnings">
+        <strong>Things to check:</strong>
+
+        <ul>
+            {% for warning in crop.warnings %}
+            <li>{{ warning }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+
+</div>
+
+
+        {% endfor %}
+
+    </div>
+
+    <div class="field-note">
+        <strong>Important:</strong>
+        {{ recommendation_result.message }}
+        Historical data period: {{ recommendation_result.data_period }}.
+        These results are historical comparisons, not guaranteed
+        future yields or personalized agronomic advice.
+    </div>
+
+    {% else %}
+
+    <h2 data-en="Unable to Generate Recommendations"
+        data-hi="फसल सुझाव तैयार नहीं हो सके">
+        Unable to Generate Recommendations
+    </h2>
+
+    <p>{{ recommendation_result.message }}</p>
+
+    {% endif %}
+
+</section>
+
+{% endif %}
+
+
+        <footer class="advisor-footer">
+            © 2026 KrishiMitra AI · Smarter Farming, Better Future.
+        </footer>
+
+    </main>
+
+</div>
+
+<script src="{{ url_for('static', filename='js/script.js') }}"></script>
+
+</body>
+</html>
